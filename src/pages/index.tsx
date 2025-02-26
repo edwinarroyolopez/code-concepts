@@ -7,17 +7,9 @@ const Layout = dynamic(() => import("@/components/layouts/layout"), {
 });
 
 const Home = () => {
-  const [selectedConcept, setSelectedConcept] = useState<string | null>(null);
-
   return (
     <div className="flex min-h-screen">
-      {selectedConcept ? (
-        <h1 className="text-2xl font-semibold">{selectedConcept}</h1>
-      ) : (
-        <p className="text-lg text-gray-500">
-          Selecciona un concepto para ver detalles.
-        </p>
-      )}
+      <p className="text-lg text-gray-500">Home</p>
     </div>
   );
 };

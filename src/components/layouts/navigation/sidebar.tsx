@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
 const SideBar = ({ layout }: { layout?: string }) => {
@@ -36,12 +37,11 @@ const SideBar = ({ layout }: { layout?: string }) => {
           <ul className="space-y-1">
             {items.map((item) => (
               <li key={item}>
-                <button
-                  className="w-full text-left p-2 hover:bg-gray-300 dark:hover:bg-gray-700 rounded"
-                  // onClick={() => setSelectedConcept(item)}
-                >
-                  {item}
-                </button>
+                <Link href={`/concepts/${encodeURIComponent(item)}`}>
+                  <span className="block w-full text-left p-2 hover:bg-gray-300 dark:hover:bg-gray-700 rounded">
+                    {item}
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
