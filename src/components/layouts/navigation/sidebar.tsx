@@ -1,21 +1,11 @@
 import Link from "next/link";
 import React from "react";
-
-const concepts = {
-  react: [
-    { title: "Manejo de Estado", slug: "manejo-de-estado"},
-    { title: "Server State y Asincronismo", slug: "server-state" },
-  ],
-  javascript: [
-    { title: "Funciones Avanzadas", slug: "funciones-avanzadas" },
-    { title: "Promises y Async/Await", slug: "promises-y-async-await"},
-  ],
-};
+import { CONCEPTS } from "@/utils/constants";
 
 const SideBar = () => {
   return (
     <nav className="w-64 p-4 border-r bg-gray-100 dark:bg-gray-900">
-      {Object.entries(concepts).map(([category, items]) => (
+      {Object.entries(CONCEPTS).map(([category, items]) => (
         <div key={category}>
           <h2 className="text-lg font-bold mb-2 capitalize">{category}</h2>
           <ul className="space-y-1">
