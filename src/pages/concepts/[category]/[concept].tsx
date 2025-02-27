@@ -50,6 +50,7 @@ const ConceptPage = () => {
                 <SyntaxHighlighter
                   language="javascript"
                   style={dracula}
+                  showLineNumbers
                   className="rounded-md overflow-x-auto"
                 >
                   {section.code}
@@ -78,6 +79,7 @@ const ConceptPage = () => {
               <SyntaxHighlighter
                 language="javascript"
                 style={dracula}
+                showLineNumbers
                 className="rounded-md overflow-x-auto"
               >
                 {section.content}
@@ -106,6 +108,7 @@ const ConceptPage = () => {
               <SyntaxHighlighter
                 language="javascript"
                 style={dracula}
+                showLineNumbers
                 className="rounded-md overflow-x-auto"
               >
                 {section.code}
