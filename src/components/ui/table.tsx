@@ -7,7 +7,7 @@ type TableProps = {
 const Table: React.FC<TableProps> = ({ title, headers = [], rows = [] }) => {
   return (
     <div className="overflow-x-auto">
-      <h2 className="text-xl font-semibold mb-2">{title}</h2>
+      {/* <h2 className="text-xl font-semibold mb-2">{title}</h2> */}
       <table className="min-w-full border border-gray-300">
         <thead>
           <tr className="bg-gray-200">

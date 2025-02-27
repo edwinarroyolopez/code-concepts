@@ -2,6 +2,7 @@ export const CONCEPTS = {
     react: [
       { title: "useState", slug: "use-state" },
       { title: "useReducer", slug: "use-reducer" },
+      { title: "useEffect", slug: "use-effect" },
       { title: "useCallback", slug: "use-callback" },
       { title: "useMemo", slug: "use-memo" },
       { title: "useImperativeHandle", slug: "use-imperative-handle" },
