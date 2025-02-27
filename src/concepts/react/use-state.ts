@@ -54,16 +54,16 @@ const concept: Concept = {
       },
       rows: [
         {
-          es: ["Persistencia en renders", "No", "Sí"],
-          en: ["Persistence across renders", "No", "Yes"]
+          es: ["Persistencia en renders", "❌ No", "✅ Sí"],
+          en: ["Persistence across renders", "❌ No", "✅ Yes"]
         },
         {
-          es: ["Actualización de UI", "No", "Sí"],
-          en: ["UI update", "No", "Yes"]
+          es: ["Actualización de UI", "❌ No", "✅ Sí"],
+          en: ["UI update", "❌ No", "✅ Yes"]
         },
         {
-          es: ["Inmutabilidad", "No garantizada", "Garantizada"],
-          en: ["Immutability", "Not guaranteed", "Guaranteed"]
+          es: ["Inmutabilidad", "❌ No garantizada", "✅ Garantizada"],
+          en: ["Immutability", "❌ Not guaranteed", "✅ Guaranteed"]
         }
       ]
     },

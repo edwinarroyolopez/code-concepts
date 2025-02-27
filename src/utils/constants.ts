@@ -9,7 +9,9 @@ export const CONCEPTS = {
       { title: "useTransition", slug: "use-transition" },
       { title: "useSyncExternalStore", slug: "use-sync-external-store" },
       { title: "useDeferredValue", slug: "use-deferred-value" },
-      { title: "useRef", slug: "use-ref" },      
+      { title: "useRef", slug: "use-ref" },
+      { title: "useContext", slug: "use-context" },
+            
     ],
     javascript: [
       { title: "Promises y Async/Await", slug: "promises-y-async-await"},
