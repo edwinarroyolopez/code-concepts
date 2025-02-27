@@ -1,5 +1,6 @@
 export const CONCEPTS = {
     react: [
+      { title: "useState", slug: "use-state" },
       { title: "useReducer", slug: "use-reducer" },
       { title: "useTransition", slug: "use-transition" },
       { title: "Manejo de Estado", slug: "manejo-de-estado"},
