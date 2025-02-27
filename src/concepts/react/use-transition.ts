@@ -4,55 +4,44 @@ const concept: Concept = {
   title: "useTransition en React",
   slug: "use-transition",
   description:
-    "useTransition es un hook de React que permite marcar actualizaciones de estado como transiciones, lo que ayuda a mejorar la experiencia del usuario al evitar bloqueos en la interfaz.",
+    "useTransition es un hook de React que permite diferenciar entre actualizaciones de estado urgentes y no urgentes, evitando bloqueos en la UI cuando se realizan tareas costosas.",
   sections: [
     {
       type: "text",
       title: "🔹¿Cómo funciona?",
       code: `const [isPending, startTransition] = useTransition();`,
       content:
-        "useTransition devuelve un estado de transición y una función para iniciar una actualización diferida. Las actualizaciones dentro de esta función no bloquean la interfaz.",
+        "useTransition devuelve un booleano (`isPending`) que indica si la actualización está en curso y una función (`startTransition`) que envuelve el código a ejecutar de manera no bloqueante.",
     },
     {
       type: "list",
       title: "🔹¿Cuándo usar useTransition?",
       content: [
-        "Cuando tienes actualizaciones de estado costosas que afectan el rendimiento.",
-        "Cuando quieres evitar bloqueos en la interfaz al cambiar el estado.",
-        "Cuando una acción del usuario requiere feedback inmediato, pero también actualiza datos de manera secundaria.",
+        "Cuando una actualización de estado es costosa y ralentiza la UI.",
+        "Cuando se necesita mantener la UI responsiva mientras se carga contenido pesado.",
+        "Cuando hay listas grandes, filtrados o cambios de vista con cálculos complejos.",
       ],
     },
     {
       type: "table",
-      title: "🔹Diferencias entre actualizaciones normales y transiciones",
+      title: "🔹Comparación entre actualizaciones normales y useTransition",
       headers: ["Característica", "Actualización normal", "useTransition"],
       rows: [
-        ["Bloquea la interfaz", "✅ Sí", "🚀 No, mantiene la fluidez"],
-        ["Prioridad", "⚠️ Inmediata", "✅ Diferida, no interrumpe"],
-        ["Experiencia de usuario", "❌ Puede ser lenta", "✅ Más fluida"],
-      ],
-    },
-    {
-      type: "list",
-      title: "🔹Casos de uso de useTransition",
-      content: [
-        "Filtrados o búsquedas en listas grandes sin afectar la interacción.",
-        "Renderizado de grandes volúmenes de datos sin bloqueos.",
-        "Evitar bloqueos al cambiar entre vistas en una aplicación compleja.",
+        ["Bloquea la UI", "⚠️ Sí, si la tarea es costosa", "✅ No, mantiene la UI responsiva"],
+        ["Prioridad de la actualización", "🔴 Siempre urgente", "🟢 Diferencia entre urgente y no urgente"],
+        ["Uso recomendado", "🚀 Estados simples y rápidos", "📊 Cálculos costosos o listas grandes"],
       ],
     },
     {
       type: "example",
-      title: "🔹Ejemplo práctico de useTransition",
-      caseTitle: "Filtrado de una lista sin bloquear la interfaz",
+      title: "1️⃣ Ejemplo práctico de useTransition",
+      caseTitle: "Filtrar una lista grande sin bloquear la UI",
       caseDescription:
-        "Este ejemplo muestra cómo usar useTransition para evitar bloqueos al filtrar una lista grande de elementos.",
+        "Este ejemplo muestra cómo filtrar una lista extensa sin que la interfaz se congele.",
       code: `
         import { useState, useTransition } from "react";
 
-        const items = Array.from({ length: 10000 }, (_, i) => Item ${"i" + 1});
-
-        const ListFilter = () => {
+        const LargeListFilter = ({ items }) => {
           const [query, setQuery] = useState("");
           const [filteredItems, setFilteredItems] = useState(items);
           const [isPending, startTransition] = useTransition();
@@ -60,7 +49,7 @@ const concept: Concept = {
           const handleSearch = (e) => {
             setQuery(e.target.value);
             startTransition(() => {
-              setFilteredItems(items.filter((item) => item.includes(e.target.value)));
+              setFilteredItems(items.filter(item => item.includes(e.target.value)));
             });
           };
 
@@ -69,77 +58,103 @@ const concept: Concept = {
               <input type="text" value={query} onChange={handleSearch} placeholder="Buscar..." />
               {isPending && <p>Cargando resultados...</p>}
               <ul>
-                {filteredItems.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
+                {filteredItems.map((item, index) => <li key={index}>{item}</li>)}
               </ul>
             </div>
           );
         };
 
-        export default ListFilter;
+        export default LargeListFilter;
       `,
       conclusion:
-        "🔥 Beneficio: Con useTransition, las búsquedas en la lista se ejecutan sin bloquear la interfaz, mejorando la experiencia del usuario.",
+        "🔥 Beneficio: La UI sigue siendo interactiva mientras se filtran los datos, mejorando la experiencia del usuario.",
     },
     {
       type: "example",
-      title: "🔹Ejemplo práctico de useTransition",
-      caseTitle: "2️⃣ Cambio de vista con renderizado costoso",
+      title: "2️⃣ Ejemplo práctico de useTransition",
+      caseTitle: "Cambio de vista con renderizado costoso",
       caseDescription:
-        "Si cambiar de pestaña dispara un re-render complejo, la UI podría sentirse lenta. useTransition lo convierte en una transición suave.",
+        "Este ejemplo muestra cómo evitar bloqueos cuando se cambia entre vistas con contenido complejo.",
       code: `
-          import { useState, useTransition } from 'react';
+        import { useState, useTransition } from "react";
 
-          export default function Tabs() {
-            const [tab, setTab] = useState('A');
-            const [isPending, startTransition] = useTransition();
+        const HeavyComponent = () => {
+          let items = Array.from({ length: 5000 }, (_, i) => <p key={i}>Elemento {i}</p>);
+          return <div>{items}</div>;
+        };
 
-            const handleTabChange = (newTab) => {
-              startTransition(() => {
-                setTab(newTab);
-              });
-            };
+        const ViewSwitcher = () => {
+          const [show, setShow] = useState(false);
+          const [isPending, startTransition] = useTransition();
 
-            return (
-              <div>
-                <button onClick={() => handleTabChange('A')}>Tab A</button>
-                <button onClick={() => handleTabChange('B')}>Tab B</button>
+          const toggleView = () => {
+            startTransition(() => setShow(prev => !prev));
+          };
 
-                {isPending && <p>Cargando contenido...</p>}
+          return (
+            <div>
+              <button onClick={toggleView}>Cambiar Vista</button>
+              {isPending && <p>Cargando vista...</p>}
+              {show && <HeavyComponent />}
+            </div>
+          );
+        };
 
-                {tab === 'A' ? <HeavyComponentA /> : <HeavyComponentB />}
-              </div>
-            );
-          }
-
-          function HeavyComponentA() {
-            return <div>Contenido pesado A</div>;
-          }
-
-          function HeavyComponentB() {
-            return <div>Contenido pesado B</div>;
-          }
+        export default ViewSwitcher;
       `,
       conclusion:
-        "🔥 Beneficio: Sin useTransition, la UI puede congelarse al cambiar de pestaña. Con useTransition, la transición es fluida y React procesa los cambios sin afectar la interacción.",
+        "🔥 Beneficio: La UI no se congela cuando se renderiza un componente pesado.",
+    },
+    {
+      type: "example",
+      title: "3️⃣ Ejemplo práctico de useTransition",
+      caseTitle: "Cargar datos sin afectar la interacción",
+      caseDescription:
+        "Este ejemplo usa useTransition para evitar bloqueos mientras se recuperan datos simulados.",
+      code: `
+        import { useState, useTransition } from "react";
+
+        const FetchSimulation = () => {
+          const [data, setData] = useState([]);
+          const [isPending, startTransition] = useTransition();
+
+          const fetchData = () => {
+            startTransition(() => {
+              setTimeout(() => {
+                setData(["Dato 1", "Dato 2", "Dato 3"]);
+              }, 2000);
+            });
+          };
+
+          return (
+            <div>
+              <button onClick={fetchData}>Cargar Datos</button>
+              {isPending && <p>Cargando datos...</p>}
+              <ul>{data.map((item, index) => <li key={index}>{item}</li>)}</ul>
+            </div>
+          );
+        };
+
+        export default FetchSimulation;
+      `,
+      conclusion:
+        "🔥 Beneficio: La aplicación sigue respondiendo mientras se simula la carga de datos.",
     },
     {
       type: "list",
       title: "📌 ¿Cuándo NO usar useTransition?",
       content: [
-        "❌ Si las actualizaciones deben ser inmediatas sin retraso.",
-        "❌ Si la actualización del estado no afecta el rendimiento.",
-        "❌ Si la aplicación ya es fluida sin bloqueos en la UI.",
+        "❌ Si el estado es simple y no afecta el rendimiento.",
+        "❌ Si la actualización es instantánea y no bloquea la UI.",
+        "❌ Si la lógica no requiere diferenciar entre tareas urgentes y no urgentes.",
       ],
     },
   ],
-  conclusion:
-    [
-      "✅ useTransition es útil cuando un cambio de estado es costoso y puede bloquear la UI.",
-      "✅ Se usa en listas grandes, filtrados, y cambios de vista complejos.",
-      "✅ Mejora la experiencia del usuario manteniendo la UI responsiva."
-    ],
-}
+  conclusion: [
+    "✅ useTransition es útil cuando un cambio de estado es costoso y puede bloquear la UI.",
+    "✅ Se usa en listas grandes, filtrados y cambios de vista complejos.",
+    "✅ Mejora la experiencia del usuario manteniendo la UI responsiva.",
+  ],
+};
 
 export default concept;
