@@ -1,45 +1,29 @@
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import React from "react";
 
-const SideBar = ({ layout }: { layout?: string }) => {
-  const concepts = {
-    React: [
-      "Uso de todos los hooks",
-      "Manejo de estado",
-      "Server State y Asincronismo",
-      "Patrones de codificación",
-      "Optimización de rendimiento",
-      "Optimización de assets",
-      "Portales para renderizado",
-      "Testing",
-      "CSS-in-JS",
-      "Node.js y Vite",
-      "DevOps y monitoreo",
-      "Microfrontends y SEO",
-    ],
-    JavaScript: [
-      "Funciones avanzadas",
-      "Promises y Async/Await",
-      "Métodos de arrays",
-      "CommonJS vs ESM",
-      "Clases en JavaScript",
-      "Manipulación del DOM",
-      "APIs del navegador",
-      "Técnicas de optimización",
-    ],
-  };
+const concepts = {
+  react: [
+    { title: "Manejo de Estado", slug: "manejo-de-estado"},
+    { title: "Server State y Asincronismo", slug: "server-state" },
+  ],
+  javascript: [
+    { title: "Funciones Avanzadas", slug: "funciones-avanzadas" },
+    { title: "Promises y Async/Await", slug: "promises-y-async-await"},
+  ],
+};
 
+const SideBar = () => {
   return (
     <nav className="w-64 p-4 border-r bg-gray-100 dark:bg-gray-900">
       {Object.entries(concepts).map(([category, items]) => (
         <div key={category}>
-          <h2 className="text-lg font-bold mb-2">{category}</h2>
+          <h2 className="text-lg font-bold mb-2 capitalize">{category}</h2>
           <ul className="space-y-1">
-            {items.map((item) => (
-              <li key={item}>
-                <Link href={`/concepts/${encodeURIComponent(item)}`}>
+            {items.map(({ title, slug }) => (
+              <li key={slug}>
+                <Link href={`/concepts/${category}/${slug}`}>
                   <span className="block w-full text-left p-2 hover:bg-gray-300 dark:hover:bg-gray-700 rounded">
-                    {item}
+                    {title}
                   </span>
                 </Link>
               </li>
