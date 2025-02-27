@@ -83,6 +83,48 @@ const concept: Concept = {
         "🔥 Beneficio: Con useTransition, las búsquedas en la lista se ejecutan sin bloquear la interfaz, mejorando la experiencia del usuario.",
     },
     {
+      type: "example",
+      title: "🔹Ejemplo práctico de useTransition",
+      caseTitle: "2️⃣ Cambio de vista con renderizado costoso",
+      caseDescription:
+        "Si cambiar de pestaña dispara un re-render complejo, la UI podría sentirse lenta. useTransition lo convierte en una transición suave.",
+      code: `
+          import { useState, useTransition } from 'react';
+
+          export default function Tabs() {
+            const [tab, setTab] = useState('A');
+            const [isPending, startTransition] = useTransition();
+
+            const handleTabChange = (newTab) => {
+              startTransition(() => {
+                setTab(newTab);
+              });
+            };
+
+            return (
+              <div>
+                <button onClick={() => handleTabChange('A')}>Tab A</button>
+                <button onClick={() => handleTabChange('B')}>Tab B</button>
+
+                {isPending && <p>Cargando contenido...</p>}
+
+                {tab === 'A' ? <HeavyComponentA /> : <HeavyComponentB />}
+              </div>
+            );
+          }
+
+          function HeavyComponentA() {
+            return <div>Contenido pesado A</div>;
+          }
+
+          function HeavyComponentB() {
+            return <div>Contenido pesado B</div>;
+          }
+      `,
+      conclusion:
+        "🔥 Beneficio: Sin useTransition, la UI puede congelarse al cambiar de pestaña. Con useTransition, la transición es fluida y React procesa los cambios sin afectar la interacción.",
+    },
+    {
       type: "list",
       title: "📌 ¿Cuándo NO usar useTransition?",
       content: [
