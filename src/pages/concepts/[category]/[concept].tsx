@@ -13,7 +13,7 @@ const Layout = dynamic(() => import("@/components/layouts/layout"), {
 
 const ConceptPage = () => {
   const router = useRouter();
-  const { category, concept } = router.query;
+  const { category, concept, locale } = router.query;
   const [conceptData, setConceptData] = useState<Concept | null>(null);
   const [copied, setCopied] = useState<number | null>(null);
 
@@ -31,17 +31,19 @@ const ConceptPage = () => {
 
   if (!conceptData) return <p className="text-center p-4">Cargando...</p>;
 
+  const lang: "es" | "en" = localStorage.getItem("lang") === "en" ? "en" : "es";
+
   return (
     <div className="p-4 sm:p-8 max-w-4xl mx-auto">
       <h1 className="text-2xl sm:text-3xl font-bold text-center">
-        {conceptData.title}
+        {conceptData.title[lang]}
       </h1>
-      <p className="mt-4 text-justify">{conceptData.description}</p>
+      <p className="mt-4 text-justify">{conceptData.description[lang]}</p>
 
       {conceptData.sections?.map((section, index) => (
         <div key={index} className="mt-6">
           <h2 className="text-xl sm:text-2xl font-semibold mb-2">
-            {section.title}
+            {section.title[lang]}
           </h2>
 
           {section.type === "text" && (
@@ -56,13 +58,13 @@ const ConceptPage = () => {
                   {section.code}
                 </SyntaxHighlighter>
               )}
-              <p className="text-justify">{section.content}</p>
+              <p className="text-justify">{section.content[lang]}</p>
             </div>
           )}
 
           {section.type === "list" && (
             <ul className="list-disc list-inside pl-4">
-              {section.content.map((point, idx) => (
+              {section.content[lang].map((point, idx) => (
                 <li key={idx}>{point}</li>
               ))}
             </ul>
@@ -89,16 +91,20 @@ const ConceptPage = () => {
 
           {section.type === "table" && (
             <Table
-              title={section.title}
-              headers={section.headers}
-              rows={section.rows}
+              title={section.title[lang]}
+              headers={section.headers[lang]}
+              rows={section.rows.map((row) => row[lang])}
             />
           )}
 
           {section.type === "example" && (
             <div className="relative bg-gray-100 dark:bg-gray-800 p-4 rounded">
-              <h3 className="text-lg font-semibold">{section.caseTitle}</h3>
-              <p className="mt-2 text-justify">{section.caseDescription}</p>
+              <h3 className="text-lg font-semibold">
+                {section.caseTitle[lang]}
+              </h3>
+              <p className="mt-2 text-justify">
+                {section.caseDescription[lang]}
+              </p>
               <button
                 className="absolute top-2 right-2 bg-gray-700 text-white px-2 py-1 rounded text-sm hover:bg-gray-600"
                 onClick={() => handleCopy(section.code, index)}
@@ -114,7 +120,7 @@ const ConceptPage = () => {
                 {section.code}
               </SyntaxHighlighter>
               <p className="mt-4 font-semibold text-justify">
-                {section.conclusion}
+                {section.conclusion[lang]}
               </p>
             </div>
           )}
@@ -124,7 +130,7 @@ const ConceptPage = () => {
       {conceptData.code && (
         <div className="mt-4 relative">
           <h2 className="text-xl sm:text-2xl font-semibold mb-2">
-            Ejemplo de código
+            {lang === "es" ? "Ejemplo de código" : "Code Example"}
           </h2>
           <button
             className="absolute top-2 right-2 bg-gray-700 text-white px-2 py-1 rounded text-sm hover:bg-gray-600"
@@ -146,17 +152,19 @@ const ConceptPage = () => {
 
       {conceptData.conclusion && (
         <div className="mt-4">
-          <h2 className="text-xl sm:text-2xl font-semibold">Conclusión</h2>
-          {Array.isArray(conceptData.conclusion) ? (
+          <h2 className="text-xl sm:text-2xl font-semibold">
+            {lang === "es" ? "Conclusión" : "Conclusion"}
+          </h2>
+          {Array.isArray(conceptData.conclusion[lang]) ? (
             <ul className="list-disc list-inside space-y-2">
-              {conceptData.conclusion.map((item, index) => (
+              {conceptData.conclusion[lang].map((item, index) => (
                 <li key={index} className="text-justify">
                   {item}
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-justify">{conceptData.conclusion}</p>
+            <p className="text-justify">{conceptData.conclusion[lang]}</p>
           )}
         </div>
       )}

@@ -1,160 +1,218 @@
 import { Concept } from "@/types/concept";
 
 const concept: Concept = {
-  title: "useTransition en React",
+  title: {
+    es: "useTransition en React",
+    en: "useTransition in React"
+  },
   slug: "use-transition",
-  description:
-    "useTransition es un hook de React que permite diferenciar entre actualizaciones de estado urgentes y no urgentes, evitando bloqueos en la UI cuando se realizan tareas costosas.",
+  description: {
+    es: "useTransition es un hook de React que permite diferir actualizaciones de estado costosas, manteniendo la interfaz responsiva mientras se procesan actualizaciones en segundo plano.",
+    en: "useTransition is a React hook that allows deferring expensive state updates, keeping the UI responsive while updates are processed in the background."
+  },
   sections: [
     {
       type: "text",
-      title: "🔹¿Cómo funciona?",
-      code: `const [isPending, startTransition] = useTransition();`,
-      content:
-        "useTransition devuelve un booleano (`isPending`) que indica si la actualización está en curso y una función (`startTransition`) que envuelve el código a ejecutar de manera no bloqueante.",
+      title: {
+        es: "🔹¿Cómo funciona?",
+        en: "🔹How does it work?"
+      },
+      code: "const [isPending, startTransition] = useTransition();",
+      content: {
+        es: "useTransition devuelve un valor booleano isPending y una función startTransition. Las actualizaciones envueltas en startTransition se difieren, permitiendo que la interfaz permanezca fluida mientras se realizan cambios costosos.",
+        en: "useTransition returns a boolean isPending and a startTransition function. Updates wrapped in startTransition are deferred, keeping the UI fluid while expensive changes occur."
+      }
     },
     {
       type: "list",
-      title: "🔹¿Cuándo usar useTransition?",
-      content: [
-        "Cuando una actualización de estado es costosa y ralentiza la UI.",
-        "Cuando se necesita mantener la UI responsiva mientras se carga contenido pesado.",
-        "Cuando hay listas grandes, filtrados o cambios de vista con cálculos complejos.",
-      ],
+      title: {
+        es: "🔹¿Cuándo usar useTransition?",
+        en: "🔹When to use useTransition?"
+      },
+      content: {
+        es: [
+          "Cuando se realizan actualizaciones de estado costosas que pueden bloquear la UI.",
+          "Para mostrar un indicador de carga mientras se procesan actualizaciones en segundo plano.",
+          "En operaciones de búsqueda o filtrado en listas grandes para mantener la interactividad."
+        ],
+        en: [
+          "When performing expensive state updates that might block the UI.",
+          "To display a loading indicator while background updates are processed.",
+          "For search or filtering operations in large lists to maintain interactivity."
+        ]
+      }
     },
     {
       type: "table",
-      title: "🔹Comparación entre actualizaciones normales y useTransition",
-      headers: ["Característica", "Actualización normal", "useTransition"],
+      title: {
+        es: "🔹Comparación entre actualizaciones normales y useTransition",
+        en: "🔹Comparison between normal updates and useTransition"
+      },
+      headers: {
+        es: ["Característica", "Actualización normal", "useTransition"],
+        en: ["Feature", "Normal update", "useTransition"]
+      },
       rows: [
-        ["Bloquea la UI", "⚠️ Sí, si la tarea es costosa", "✅ No, mantiene la UI responsiva"],
-        ["Prioridad de la actualización", "🔴 Siempre urgente", "🟢 Diferencia entre urgente y no urgente"],
-        ["Uso recomendado", "🚀 Estados simples y rápidos", "📊 Cálculos costosos o listas grandes"],
-      ],
+        {
+          es: ["Bloqueo de UI", "Sí", "No, si se usa correctamente"],
+          en: ["UI Blocking", "Yes", "No, if used correctly"]
+        },
+        {
+          es: ["Interactividad", "Puede ser lenta", "Más fluida"],
+          en: ["Interactivity", "May be slow", "Smoother"]
+        },
+        {
+          es: ["Prioridad de actualización", "Inmediata", "Diferida"],
+          en: ["Update priority", "Immediate", "Deferred"]
+        }
+      ]
     },
     {
       type: "example",
-      title: "1️⃣ Ejemplo práctico de useTransition",
-      caseTitle: "Filtrar una lista grande sin bloquear la UI",
-      caseDescription:
-        "Este ejemplo muestra cómo filtrar una lista extensa sin que la interfaz se congele.",
-      code: `
-        import { useState, useTransition } from "react";
+      title: {
+        es: "1️⃣ Ejemplo práctico de useTransition",
+        en: "1️⃣ Practical example of useTransition"
+      },
+      caseTitle: {
+        es: "Actualización diferida en una lista grande",
+        en: "Deferred update in a large list"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo actualizar una lista grande sin bloquear la UI usando useTransition.",
+        en: "This example demonstrates how to update a large list without blocking the UI using useTransition."
+      },
+      code: `import { useState, useTransition } from "react";
 
-        const LargeListFilter = ({ items }) => {
-          const [query, setQuery] = useState("");
-          const [filteredItems, setFilteredItems] = useState(items);
-          const [isPending, startTransition] = useTransition();
+const LargeList = () => {
+  const [input, setInput] = useState("");
+  const [list, setList] = useState([]);
+  const [isPending, startTransition] = useTransition();
 
-          const handleSearch = (e) => {
-            setQuery(e.target.value);
-            startTransition(() => {
-              setFilteredItems(items.filter(item => item.includes(e.target.value)));
-            });
-          };
+  const handleChange = (e) => {
+    setInput(e.target.value);
+    startTransition(() => {
+      // Simulación de una actualización costosa\n      const newList = Array.from({ length: 10000 }, (_, i) => e.target.value + i);
+      setList(newList);
+    });
+  };
 
-          return (
-            <div>
-              <input type="text" value={query} onChange={handleSearch} placeholder="Buscar..." />
-              {isPending && <p>Cargando resultados...</p>}
-              <ul>
-                {filteredItems.map((item, index) => <li key={index}>{item}</li>)}
-              </ul>
-            </div>
-          );
-        };
+  return (
+    <div>
+      <input value={input} onChange={handleChange} placeholder="Escribe algo..." />\n      {isPending ? <p>Cargando...</p> : <ul>{list.slice(0, 10).map((item, i) => <li key={i}>{item}</li>)}</ul>}\n    </div>\n  );
+};
 
-        export default LargeListFilter;
-      `,
-      conclusion:
-        "🔥 Beneficio: La UI sigue siendo interactiva mientras se filtran los datos, mejorando la experiencia del usuario.",
+export default LargeList;`,
+      conclusion: {
+        es: "🔥 Beneficio: Permite actualizar una lista grande sin bloquear la interfaz, manteniéndola responsiva.",
+        en: "🔥 Benefit: Allows updating a large list without blocking the UI, keeping it responsive."
+      }
     },
     {
       type: "example",
-      title: "2️⃣ Ejemplo práctico de useTransition",
-      caseTitle: "Cambio de vista con renderizado costoso",
-      caseDescription:
-        "Este ejemplo muestra cómo evitar bloqueos cuando se cambia entre vistas con contenido complejo.",
-      code: `
-        import { useState, useTransition } from "react";
+      title: {
+        es: "2️⃣ Ejemplo práctico de useTransition",
+        en: "2️⃣ Practical example of useTransition"
+      },
+      caseTitle: {
+        es: "Indicador de carga con actualizaciones diferidas",
+        en: "Loading indicator with deferred updates"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo mostrar un indicador de carga mientras se realizan actualizaciones diferidas.",
+        en: "This example demonstrates how to display a loading indicator while deferred updates occur."
+      },
+      code: `import { useState, useTransition } from "react";
 
-        const HeavyComponent = () => {
-          let items = Array.from({ length: 5000 }, (_, i) => <p key={i}>Elemento {i}</p>);
-          return <div>{items}</div>;
-        };
+const SearchComponent = () => {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [isPending, startTransition] = useTransition();
 
-        const ViewSwitcher = () => {
-          const [show, setShow] = useState(false);
-          const [isPending, startTransition] = useTransition();
+  const handleSearch = (e) => {
+    setQuery(e.target.value);
+    startTransition(() => {
+      // Simulación de búsqueda costosa\n      const filtered = ["apple", "banana", "cherry", "date"].filter(item => item.includes(e.target.value));\n      setResults(filtered);\n    });
+  };
 
-          const toggleView = () => {
-            startTransition(() => setShow(prev => !prev));
-          };
+  return (
+    <div>
+      <input value={query} onChange={handleSearch} placeholder="Buscar..." />\n      {isPending ? <p>Cargando resultados...</p> : <ul>{results.map((item, i) => <li key={i}>{item}</li>)}</ul>}\n    </div>\n  );
+};
 
-          return (
-            <div>
-              <button onClick={toggleView}>Cambiar Vista</button>
-              {isPending && <p>Cargando vista...</p>}
-              {show && <HeavyComponent />}
-            </div>
-          );
-        };
-
-        export default ViewSwitcher;
-      `,
-      conclusion:
-        "🔥 Beneficio: La UI no se congela cuando se renderiza un componente pesado.",
+export default SearchComponent;`,
+      conclusion: {
+        es: "🔥 Beneficio: La UI permanece responsiva mientras se filtran los resultados de la búsqueda.",
+        en: "🔥 Benefit: The UI remains responsive while filtering search results."
+      }
     },
     {
       type: "example",
-      title: "3️⃣ Ejemplo práctico de useTransition",
-      caseTitle: "Cargar datos sin afectar la interacción",
-      caseDescription:
-        "Este ejemplo usa useTransition para evitar bloqueos mientras se recuperan datos simulados.",
-      code: `
-        import { useState, useTransition } from "react";
+      title: {
+        es: "3️⃣ Ejemplo práctico de useTransition",
+        en: "3️⃣ Practical example of useTransition"
+      },
+      caseTitle: {
+        es: "Transición en una operación de actualización compleja",
+        en: "Transition in a complex update operation"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo usar useTransition para diferir una operación compleja y mejorar la experiencia de usuario.",
+        en: "This example demonstrates how to use useTransition to defer a complex update operation and improve user experience."
+      },
+      code: `import { useState, useTransition } from "react";
 
-        const FetchSimulation = () => {
-          const [data, setData] = useState([]);
-          const [isPending, startTransition] = useTransition();
+const ComplexUpdate = () => {
+  const [value, setValue] = useState(0);
+  const [isPending, startTransition] = useTransition();
 
-          const fetchData = () => {
-            startTransition(() => {
-              setTimeout(() => {
-                setData(["Dato 1", "Dato 2", "Dato 3"]);
-              }, 2000);
-            });
-          };
+  const handleUpdate = () => {
+    startTransition(() => {
+      // Simulación de operación compleja\n      setValue(v => v + 1);\n    });
+  };
 
-          return (
-            <div>
-              <button onClick={fetchData}>Cargar Datos</button>
-              {isPending && <p>Cargando datos...</p>}
-              <ul>{data.map((item, index) => <li key={index}>{item}</li>)}</ul>
-            </div>
-          );
-        };
+  return (
+    <div>
+      <p>Valor: {value}</p>\n      {isPending && <p>Actualizando...</p>}\n      <button onClick={handleUpdate}>Actualizar</button>\n    </div>\n  );
+};
 
-        export default FetchSimulation;
-      `,
-      conclusion:
-        "🔥 Beneficio: La aplicación sigue respondiendo mientras se simula la carga de datos.",
+export default ComplexUpdate;`,
+      conclusion: {
+        es: "🔥 Beneficio: Permite diferir operaciones complejas y mantener la UI responsiva.",
+        en: "🔥 Benefit: It defers complex operations while keeping the UI responsive."
+      }
     },
     {
       type: "list",
-      title: "📌 ¿Cuándo NO usar useTransition?",
-      content: [
-        "❌ Si el estado es simple y no afecta el rendimiento.",
-        "❌ Si la actualización es instantánea y no bloquea la UI.",
-        "❌ Si la lógica no requiere diferenciar entre tareas urgentes y no urgentes.",
-      ],
-    },
+      title: {
+        es: "📌 ¿Cuándo no usar useTransition?",
+        en: "📌 When NOT to use useTransition?"
+      },
+      content: {
+        es: [
+          "❌ Si la actualización es muy rápida y no afecta la experiencia del usuario.",
+          "❌ Para operaciones simples que no requieren diferir la actualización.",
+          "❌ Cuando la prioridad de la actualización es alta y debe ejecutarse de inmediato."
+        ],
+        en: [
+          "❌ If the update is very fast and does not affect user experience.",
+          "❌ For simple operations that don't need deferred updates.",
+          "❌ When the update priority is high and must run immediately."
+        ]
+      }
+    }
   ],
-  conclusion: [
-    "✅ useTransition es útil cuando un cambio de estado es costoso y puede bloquear la UI.",
-    "✅ Se usa en listas grandes, filtrados y cambios de vista complejos.",
-    "✅ Mejora la experiencia del usuario manteniendo la UI responsiva.",
-  ],
+  conclusion: {
+    es: [
+      "✅ useTransition permite diferir actualizaciones costosas y mantener la interfaz responsiva.",
+      "✅ Es útil en operaciones de búsqueda, filtrado y actualizaciones complejas.",
+      "✅ Debe usarse cuando la experiencia de usuario se beneficia de actualizaciones diferidas."
+    ],
+    en: [
+      "✅ useTransition allows deferring expensive updates and keeps the UI responsive.",
+      "✅ It is useful for search, filtering, and complex updates.",
+      "✅ It should be used when user experience benefits from deferred updates."
+    ]
+  }
 };
 
 export default concept;

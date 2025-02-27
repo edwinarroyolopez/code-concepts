@@ -1,181 +1,185 @@
 import { Concept } from "@/types/concept";
 
 const concept: Concept = {
-  title: "useImperativeHandle en React",
+  title: {
+    es: "useImperativeHandle en React",
+    en: "useImperativeHandle in React"
+  },
   slug: "use-imperative-handle",
-  description:
-    "useImperativeHandle es un hook de React que permite personalizar los métodos expuestos por un componente cuando se usa con `forwardRef`. Se usa principalmente para interactuar con componentes controlados desde el padre.",
+  description: {
+    es: "useImperativeHandle es un hook de React que, junto con forwardRef, permite personalizar los métodos y propiedades expuestos a componentes padres mediante una ref. Es útil para encapsular la lógica interna y exponer solo lo necesario.",
+    en: "useImperativeHandle is a React hook that, together with forwardRef, allows you to customize the methods and properties exposed to parent components via a ref. It is useful for encapsulating internal logic and exposing only what is necessary."
+  },
   sections: [
     {
       type: "text",
-      title: "🔹¿Cómo funciona?",
-      code: `useImperativeHandle(ref, () => ({ customMethod() { ... } }));`,
-      content:
-        "useImperativeHandle permite exponer métodos o valores específicos desde un componente hijo para que el padre los pueda invocar a través de una referencia (`ref`). Se usa junto con `forwardRef`.",
+      title: {
+        es: "🔹¿Cómo funciona?",
+        en: "🔹How does it work?"
+      },
+      code: "const refValue = useImperativeHandle(ref, () => ({ ...methods }), [dependencies]);",
+      content: {
+        es: "useImperativeHandle se utiliza junto con forwardRef para exponer únicamente los métodos o propiedades que el componente padre necesita, limitando lo que se muestra y mejorando el encapsulamiento.",
+        en: "useImperativeHandle is used with forwardRef to expose only the methods or properties that the parent component needs, limiting what is exposed and improving encapsulation."
+      }
     },
     {
       type: "list",
-      title: "🔹¿Cuándo usar useImperativeHandle?",
-      content: [
-        "Cuando se necesita que un componente hijo exponga métodos específicos al padre.",
-        "Cuando se requiere manipular un componente sin exponer toda su implementación.",
-        "Cuando se trabaja con componentes controlados como inputs o modales personalizados.",
-      ],
+      title: {
+        es: "🔹¿Cuándo usar useImperativeHandle?",
+        en: "🔹When to use useImperativeHandle?"
+      },
+      content: {
+        es: [
+          "Cuando se necesita exponer métodos imperativos desde un componente hijo.",
+          "Para personalizar la API de una ref y limitar lo que se expone al componente padre.",
+          "Cuando se requiere encapsular la lógica interna sin exponerla completamente."
+        ],
+        en: [
+          "When you need to expose imperative methods from a child component.",
+          "To customize the API of a ref and restrict what is exposed to the parent component.",
+          "When you need to encapsulate internal logic without fully exposing it."
+        ]
+      }
     },
     {
       type: "table",
-      title: "🔹Comparación entre refs normales y useImperativeHandle",
-      headers: ["Característica", "Refs normales", "useImperativeHandle"],
+      title: {
+        es: "🔹Comparación entre uso predeterminado de ref y useImperativeHandle",
+        en: "🔹Comparison between default ref usage and useImperativeHandle"
+      },
+      headers: {
+        es: ["Característica", "Uso predeterminado", "useImperativeHandle"],
+        en: ["Feature", "Default ref", "useImperativeHandle"]
+      },
       rows: [
-        ["Accede a nodos del DOM", "✅ Sí", "✅ Sí"],
-        ["Expone métodos personalizados", "❌ No", "✅ Sí"],
-        ["Encapsula lógica interna", "❌ No", "✅ Sí, evita exponer detalles innecesarios"],
-      ],
+        {
+          es: ["Exposición de métodos", "Exposición completa", "Exposición personalizada"],
+          en: ["Method exposure", "Full exposure", "Customized exposure"]
+        },
+        {
+          es: ["Encapsulamiento", "Bajo", "Alto"],
+          en: ["Encapsulation", "Low", "High"]
+        },
+        {
+          es: ["Control", "Limitado", "Mayor control sobre la API expuesta"],
+          en: ["Control", "Limited", "More control over the exposed API"]
+        }
+      ]
     },
     {
       type: "example",
-      title: "1️⃣ Ejemplo práctico de useImperativeHandle",
-      caseTitle: "Manipulación de un input desde el padre",
-      caseDescription:
-        "Este ejemplo muestra cómo exponer un método `focus` desde un componente hijo para ser llamado desde el padre.",
-      code: `
-        import { useRef, forwardRef, useImperativeHandle } from "react";
+      title: {
+        es: "1️⃣ Ejemplo práctico de useImperativeHandle",
+        en: "1️⃣ Practical example of useImperativeHandle"
+      },
+      caseTitle: {
+        es: "Exponer un método de enfoque",
+        en: "Expose a focus method"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo exponer un método 'focus' en un componente de entrada.",
+        en: "This example demonstrates how to expose a 'focus' method in an input component."
+      },
+      code: `import React, { useRef, forwardRef, useImperativeHandle } from "react";
 
-        const CustomInput = forwardRef((props, ref) => {
-          const inputRef = useRef();
+const Input = forwardRef((props, ref) => {
+  const inputRef = useRef(null);
+  
+  useImperativeHandle(ref, () => ({\n    focus: () => {\n      inputRef.current.focus();\n    }\n  }));\n  \n  return <input ref={inputRef} {...props} />;\n});
 
-          useImperativeHandle(ref, () => ({
-            focus: () => {
-              inputRef.current.focus();
-            },
-          }));
+const Parent = () => {\n  const inputRef = useRef(null);\n  return (\n    <div>\n      <Input ref={inputRef} placeholder=\"Escribe algo...\" />\n      <button onClick={() => inputRef.current.focus()}>Enfocar</button>\n    </div>\n  );\n};
 
-          return <input ref={inputRef} {...props} />;
-        });
-
-        const ParentComponent = () => {
-          const inputRef = useRef();
-
-          return (
-            <div>
-              <CustomInput ref={inputRef} placeholder="Escribe algo..." />
-              <button onClick={() => inputRef.current.focus()}>Enfocar input</button>
-            </div>
-          );
-        };
-
-        export default ParentComponent;
-      `,
-      conclusion:
-        "🔥 Beneficio: Permite controlar el input desde el padre sin exponer su implementación interna.",
+export default Parent;`,
+      conclusion: {
+        es: "🔥 Beneficio: Permite exponer solo los métodos necesarios, mejorando el encapsulamiento y la seguridad de la API del componente.",
+        en: "🔥 Benefit: Allows exposing only the necessary methods, enhancing encapsulation and component API security."
+      }
     },
     {
       type: "example",
-      title: "2️⃣ Ejemplo práctico de useImperativeHandle",
-      caseTitle: "Control de un modal desde el componente padre",
-      caseDescription:
-        "Este ejemplo muestra cómo exponer métodos `open` y `close` para controlar un modal desde el padre.",
-      code: `
-        import { useState, useRef, forwardRef, useImperativeHandle } from "react";
+      title: {
+        es: "2️⃣ Ejemplo práctico de useImperativeHandle",
+        en: "2️⃣ Practical example of useImperativeHandle"
+      },
+      caseTitle: {
+        es: "Limitar la API de una ref",
+        en: "Limit the API of a ref"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo usar useImperativeHandle para limitar los métodos expuestos por un componente, ocultando la implementación interna.",
+        en: "This example demonstrates how to use useImperativeHandle to restrict the methods exposed by a component, hiding its internal implementation."
+      },
+      code: `import React, { useRef, forwardRef, useImperativeHandle } from "react";
 
-        const Modal = forwardRef((_, ref) => {
-          const [isOpen, setIsOpen] = useState(false);
+const CustomInput = forwardRef((props, ref) => {
+  const inputRef = useRef(null);
+  
+  useImperativeHandle(ref, () => ({\n    clear: () => {\n      inputRef.current.value = \"\";\n    }\n  }));\n  \n  return <input ref={inputRef} {...props} />;\n});
 
-          useImperativeHandle(ref, () => ({
-            open: () => setIsOpen(true),
-            close: () => setIsOpen(false),
-          }));
+const ParentComponent = () => {\n  const inputRef = useRef(null);\n  return (\n    <div>\n      <CustomInput ref={inputRef} placeholder=\"Ingresa texto...\" />\n      <button onClick={() => inputRef.current.clear()}>Limpiar</button>\n    </div>\n  );\n};
 
-          if (!isOpen) return null;
-
-          return (
-            <div className="modal">
-              <p>Este es un modal</p>
-              <button onClick={() => setIsOpen(false)}>Cerrar</button>
-            </div>
-          );
-        });
-
-        const App = () => {
-          const modalRef = useRef();
-
-          return (
-            <div>
-              <button onClick={() => modalRef.current.open()}>Abrir Modal</button>
-              <Modal ref={modalRef} />
-            </div>
-          );
-        };
-
-        export default App;
-      `,
-      conclusion:
-        "🔥 Beneficio: Permite controlar el modal desde el padre sin necesidad de pasar estado como props.",
+export default ParentComponent;`,
+      conclusion: {
+        es: "🔥 Beneficio: Se expone únicamente el método 'clear', ocultando la implementación interna del componente.",
+        en: "🔥 Benefit: Only the 'clear' method is exposed, hiding the component's internal implementation."
+      }
     },
     {
       type: "example",
-      title: "3️⃣ Ejemplo práctico de useImperativeHandle",
-      caseTitle: "Componente de lista con métodos expuestos",
-      caseDescription:
-        "Este ejemplo permite agregar y limpiar elementos de una lista desde el componente padre.",
-      code: `
-        import { useState, useRef, forwardRef, useImperativeHandle } from "react";
+      title: {
+        es: "3️⃣ Ejemplo práctico de useImperativeHandle",
+        en: "3️⃣ Practical example of useImperativeHandle"
+      },
+      caseTitle: {
+        es: "Exponer una API personalizada",
+        en: "Expose a custom API"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo exponer una API personalizada en un componente, permitiendo al componente padre interactuar de manera controlada.",
+        en: "This example demonstrates how to expose a custom API in a component, allowing the parent to interact in a controlled manner."
+      },
+      code: `import React, { useRef, forwardRef, useImperativeHandle } from "react";
 
-        const List = forwardRef((_, ref) => {
-          const [items, setItems] = useState([]);
-
-          useImperativeHandle(ref, () => ({
-            addItem: (item) => setItems((prev) => [...prev, item]),
-            clearItems: () => setItems([]),
-          }));
-
-          return (
-            <div>
-              <ul>
-                {items.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          );
-        });
-
-        const ParentComponent = () => {
-          const listRef = useRef();
-
-          return (
-            <div>
-              <button onClick={() => listRef.current.addItem("Nuevo ítem")}>
-                Agregar Ítem
-              </button>
-              <button onClick={() => listRef.current.clearItems()}>
-                Limpiar Lista
-              </button>
-              <List ref={listRef} />
-            </div>
-          );
-        };
-
-        export default ParentComponent;
-      `,
-      conclusion:
-        "🔥 Beneficio: Permite manipular la lista desde el padre sin manejar estado adicional.",
+const CustomComponent = forwardRef((props, ref) => {
+  const localValue = "Valor interno";\n  \n  useImperativeHandle(ref, () => ({\n    getValue: () => localValue,\n    alertValue: () => alert(localValue)\n  }));\n  \n  return <div>Componente Interno</div>;\n});\n\nconst ParentComponent = () => {\n  const compRef = useRef(null);\n  return (\n    <div>\n      <CustomComponent ref={compRef} />\n      <button onClick={() => alert(compRef.current.getValue())}>Obtener Valor</button>\n      <button onClick={() => compRef.current.alertValue()}>Alertar Valor</button>\n    </div>\n  );\n};\n\nexport default ParentComponent;`,
+      conclusion: {
+        es: "🔥 Beneficio: Permite al componente padre interactuar con el hijo a través de una API personalizada sin exponer toda su lógica interna.",
+        en: "🔥 Benefit: Allows the parent component to interact with the child through a custom API without exposing its internal logic."
+      }
     },
     {
       type: "list",
-      title: "📌 ¿Cuándo NO usar useImperativeHandle?",
-      content: [
-        "❌ Si el componente no necesita exponer métodos específicos al padre.",
-        "❌ Si se puede lograr el mismo efecto con props o estado global.",
-        "❌ Si se usa innecesariamente, puede aumentar la complejidad sin beneficios reales.",
-      ],
-    },
+      title: {
+        es: "📌 ¿Cuándo no usar useImperativeHandle?",
+        en: "📌 When NOT to use useImperativeHandle?"
+      },
+      content: {
+        es: [
+          "❌ Si no es necesario exponer métodos o propiedades, usar refs directamente es suficiente.",
+          "❌ Si se puede lograr la funcionalidad mediante props y callbacks, es preferible esa solución.",
+          "❌ Evitar usar useImperativeHandle para romper la abstracción de componentes."
+        ],
+        en: [
+          "❌ If there is no need to expose methods or properties, using refs directly is enough.",
+          "❌ If the functionality can be achieved through props and callbacks, that solution is preferable.",
+          "❌ Avoid using useImperativeHandle to break component encapsulation."
+        ]
+      }
+    }
   ],
-  conclusion: [
-    "✅ useImperativeHandle permite exponer métodos específicos desde un componente hijo al padre.",
-    "✅ Se usa junto con `forwardRef` para controlar inputs, modales y otros componentes personalizados.",
-    "✅ Es útil para encapsular lógica y evitar exponer detalles internos innecesarios.",
-  ],
+  conclusion: {
+    es: [
+      "✅ useImperativeHandle permite exponer una API personalizada de un componente, mejorando el encapsulamiento.",
+      "✅ Facilita la interacción controlada entre componentes padre e hijo.",
+      "✅ Es útil para ocultar la lógica interna y exponer solo lo necesario."
+    ],
+    en: [
+      "✅ useImperativeHandle allows exposing a custom API from a component, improving encapsulation.",
+      "✅ It facilitates controlled interaction between parent and child components.",
+      "✅ It is useful for hiding internal logic and exposing only what is necessary."
+    ]
+  }
 };
 
 export default concept;

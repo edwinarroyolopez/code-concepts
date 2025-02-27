@@ -1,157 +1,208 @@
 import { Concept } from "@/types/concept";
 
 const concept: Concept = {
-  title: "useMemo en React",
+  title: {
+    es: "useMemo en React",
+    en: "useMemo in React"
+  },
   slug: "use-memo",
-  description:
-    "useMemo es un hook de React que memoriza el resultado de una función costosa para evitar cálculos innecesarios en cada render. Se usa cuando un valor derivado es computacionalmente costoso de recalcular.",
+  description: {
+    es: "useMemo es un hook de React que memoriza valores computados para evitar cálculos innecesarios en cada renderización.",
+    en: "useMemo is a React hook that memoizes computed values to prevent unnecessary calculations on each render."
+  },
   sections: [
     {
       type: "text",
-      title: "🔹¿Cómo funciona?",
-      code: `const memoizedValue = useMemo(() => computeExpensiveValue(data), [data]);`,
-      content:
-        "useMemo devuelve un valor memorizado que solo se recalcula si las dependencias cambian. Esto evita recomputaciones innecesarias en cada renderización.",
-    },
-    {
-      type: "list",
-      title: "🔹¿Cuándo usar useMemo?",
-      content: [
-        "Cuando una operación costosa (cálculos, filtrados, transformaciones) debe evitarse en cada render.",
-        "Cuando se necesita mejorar el rendimiento en listas grandes o cálculos intensivos.",
-        "Cuando un valor derivado afecta el renderizado de componentes hijos memorizados.",
-      ],
+      title: {
+        es: "🔹¿Cómo funciona?",
+        en: "🔹How does it work?"
+      },
+      code: "const memoizedValue = useMemo(() => computeValue(param), [param]);",
+      content: {
+        es: "useMemo devuelve un valor memorizado que solo se recalcula si las dependencias cambian.",
+        en: "useMemo returns a memoized value that only recalculates if dependencies change."
+      }
     },
     {
       type: "table",
-      title: "🔹Comparación entre cálculos normales y useMemo",
-      headers: ["Característica", "Cálculo normal", "useMemo"],
+      title: {
+        es:"🔹Comparación entre cálculos normales y useMemo",
+        en:"🔹Comparison between normal calculations and useMemo"
+      },
+      headers: {
+        es: ["Característica", "Cálculo normal", "useMemo"],
+        en: ["Feature", "Normal Calculation", "useMemo"]
+      },
       rows: [
-        ["Repetición en cada render", "⚠️ Sí", "✅ No, si las dependencias no cambian"],
-        ["Optimización de rendimiento", "❌ No optimiza cálculos", "✅ Reduce cálculos innecesarios"],
-        ["Uso en listas grandes", "⚠️ Puede ser lento", "✅ Mejora la eficiencia"],
-      ],
+        {
+          es: ["Repetición en cada render", "⚠️ Sí", "✅ No, si las dependencias no cambian"],
+          en: ["Recalculation on each render", "⚠️ Yes", "✅ No, if dependencies don't change"]
+        },
+        {
+          es: ["Optimización de rendimiento", "❌ No optimiza cálculos", "✅ Reduce cálculos innecesarios"],
+          en: ["Performance optimization", "❌ Does not optimize calculations", "✅ Reduces unnecessary computations"]
+        },
+        {
+          es: ["Uso en listas grandes", "⚠️ Puede ser lento", "✅ Mejora la eficiencia"],
+          en: ["Usage in large lists", "⚠️ Can be slow", "✅ Improves efficiency"]
+        }
+      ]
     },
     {
       type: "example",
-      title: "1️⃣ Ejemplo práctico de useMemo",
-      caseTitle: "Evitar cálculos innecesarios en listas grandes",
-      caseDescription:
-        "Este ejemplo muestra cómo evitar que una lista filtrada se recalcule en cada render.",
-      code: `
-        import { useState, useMemo } from "react";
+      title: {
+        es: "1️⃣ Ejemplo práctico de useMemo",
+        en: "1️⃣ Practical example of useMemo"
+      },
+      caseTitle: {
+        es: "Evitar cálculos costosos innecesarios",
+        en: "Avoid unnecessary expensive calculations"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo evitar cálculos innecesarios en cada render usando useMemo.",
+        en: "This example demonstrates how to avoid unnecessary calculations on each render using useMemo."
+      },
+      code: `import { useState, useMemo } from "react";
 
-        const numbers = Array.from({ length: 10000 }, (_, i) => i);
+const ExpensiveCalculation = ({ count }) => {
+  const computedValue = useMemo(() => {
+    console.log("Calculando...");
+    return count * 2;
+  }, [count]);
 
-        const FilteredList = ({ query }) => {
-          const filteredNumbers = useMemo(() => {
-            return numbers.filter(num => num.toString().includes(query));
-          }, [query]);
+  return <p>Valor calculado: {computedValue}</p>;
+};
 
-          return <p>Números encontrados: {filteredNumbers.length}</p>;
-        };
+const App = () => {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Incrementar</button>
+      <ExpensiveCalculation count={count} />
+    </div>
+  );
+};
 
-        const App = () => {
-          const [query, setQuery] = useState("");
-
-          return (
-            <div>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Filtrar números"
-              />
-              <FilteredList query={query} />
-            </div>
-          );
-        };
-
-        export default App;
-      `,
-      conclusion:
-        "🔥 Beneficio: La lista solo se recalcula cuando `query` cambia, mejorando el rendimiento.",
+export default App;`,
+      conclusion: {
+        es: "🔥 Beneficio: Solo recalcula cuando cambia la dependencia, evitando recomputaciones innecesarias.",
+        en: "🔥 Benefit: It only recalculates when dependencies change, avoiding unnecessary recomputations."
+      }
     },
     {
       type: "example",
-      title: "2️⃣ Ejemplo práctico de useMemo",
-      caseTitle: "Cálculo de valores costosos",
-      caseDescription:
-        "Este ejemplo optimiza el cálculo de un factorial usando useMemo.",
-      code: `
-        import { useState, useMemo } from "react";
+      title: {
+        es: "2️⃣ Ejemplo práctico de useMemo",
+        en: "2️⃣ Practical example of useMemo"
+      },
+      caseTitle: {
+        es: "Filtrar una lista sin recomputaciones",
+        en: "Filter a list without unnecessary recomputations"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo evitar que una lista filtrada se recalcule en cada render innecesariamente.",
+        en: "This example demonstrates how to prevent a filtered list from recalculating unnecessarily on each render."
+      },
+      code: `import { useState, useMemo } from "react";
 
-        const factorial = (n) => {
-          console.log("Calculando factorial...");
-          return n <= 1 ? 1 : n * factorial(n - 1);
-        };
+const List = ({ items, filter }) => {
+  const filteredItems = useMemo(() => {
+    console.log("Filtrando...");
+    return items.filter(item => item.includes(filter));
+  }, [items, filter]);
 
-        const FactorialComponent = () => {
-          const [number, setNumber] = useState(5);
+  return <ul>{filteredItems.map((item, i) => <li key={i}>{item}</li>)}</ul>;
+};
 
-          const result = useMemo(() => factorial(number), [number]);
+const App = () => {
+  const [filter, setFilter] = useState("");
+  const items = ["apple", "banana", "cherry", "date", "grape"];
 
-          return (
-            <div>
-              <p>Factorial de {number}: {result}</p>
-              <button onClick={() => setNumber(number + 1)}>Incrementar</button>
-            </div>
-          );
-        };
+  return (
+    <div>
+      <input value={filter} onChange={e => setFilter(e.target.value)} placeholder="Filtrar..." />
+      <List items={items} filter={filter} />
+    </div>
+  );
+};
 
-        export default FactorialComponent;
-      `,
-      conclusion:
-        "🔥 Beneficio: `factorial` solo se recalcula cuando `number` cambia, evitando cálculos innecesarios.",
+export default App;`,
+      conclusion: {
+        es: "🔥 Beneficio: Evita que la lista filtrada se recalcule en cada render innecesariamente.",
+        en: "🔥 Benefit: Prevents the filtered list from recalculating unnecessarily on each render."
+      }
     },
     {
       type: "example",
-      title: "3️⃣ Ejemplo práctico de useMemo",
-      caseTitle: "Optimización en componentes hijos",
-      caseDescription:
-        "Este ejemplo muestra cómo evitar renders innecesarios cuando un valor derivado es constante.",
-      code: `
-        import { useState, useMemo, memo } from "react";
+      title: {
+        es: "3️⃣ Ejemplo práctico de useMemo",
+        en: "3️⃣ Practical example of useMemo"
+      },
+      caseTitle: {
+        es: "Evitar recreaciones innecesarias de objetos",
+        en: "Avoid unnecessary object recreations"
+      },
+      caseDescription: {
+        es: "Este ejemplo demuestra cómo evitar que un objeto se recree innecesariamente en cada render.",
+        en: "This example demonstrates how to prevent an object from being unnecessarily recreated on each render."
+      },
+      code: `import { useState, useMemo } from "react";
 
-        const ChildComponent = memo(({ computedValue }) => {
-          console.log("ChildComponent renderizado");
-          return <p>Valor computado: {computedValue}</p>;
-        });
+const Component = ({ config }) => {
+  return <p>Configuración: {JSON.stringify(config)}</p>;
+};
 
-        const ParentComponent = () => {
-          const [count, setCount] = useState(0);
+const App = () => {
+  const [count, setCount] = useState(0);
 
-          const computedValue = useMemo(() => count * 2, [count]);
+  const config = useMemo(() => ({ theme: "dark", size: count }), [count]);
 
-          return (
-            <div>
-              <p>Contador: {count}</p>
-              <button onClick={() => setCount(count + 1)}>Incrementar</button>
-              <ChildComponent computedValue={computedValue} />
-            </div>
-          );
-        };
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Incrementar</button>
+      <Component config={config} />
+    </div>
+  );
+};
 
-        export default ParentComponent;
-      `,
-      conclusion:
-        "🔥 Beneficio: `ChildComponent` solo se renderiza cuando `computedValue` cambia, reduciendo renders innecesarios.",
+export default App;`,
+      conclusion: {
+        es: "🔥 Beneficio: Evita recreaciones innecesarias de objetos, mejorando la optimización.",
+        en: "🔥 Benefit: Prevents unnecessary object recreations, improving optimization."
+      }
     },
     {
       type: "list",
-      title: "📌 ¿Cuándo NO usar useMemo?",
-      content: [
-        "❌ Si el cálculo es rápido, el overhead de useMemo puede ser mayor que su beneficio.",
-        "❌ Si la memorización no aporta mejoras de rendimiento significativas.",
-        "❌ Si el valor calculado cambia en cada render sin necesidad de optimización.",
-      ],
-    },
+      title: {
+        es: "📌 ¿Cuándo tener cuidado con useMemo?",
+        en: "📌 When to be careful with useMemo?"
+      },
+      content: {
+        es: [
+          "⚠️ No usar en cálculos ligeros que no afectan el rendimiento.",
+          "⚠️ Evitar su uso excesivo, ya que puede hacer que el código sea más complejo sin beneficio real.",
+          "⚠️ No reemplaza el uso de optimización en estructuras de datos grandes, como indexación eficiente."
+        ],
+        en: [
+          "⚠️ Do not use for lightweight calculations that do not impact performance.",
+          "⚠️ Avoid excessive use, as it can make code more complex without real benefit.",
+          "⚠️ It does not replace proper optimization in large data structures, such as efficient indexing."
+        ]
+      }
+    }
   ],
-  conclusion: [
-    "✅ useMemo evita recomputaciones innecesarias y mejora el rendimiento.",
-    "✅ Se usa cuando un cálculo costoso debe mantenerse memorizado entre renders.",
-    "✅ Es útil en listas grandes, cálculos pesados y optimización de componentes.",
-  ],
+  conclusion: {
+    es: [
+      "✅ useMemo ayuda a reducir cálculos costosos innecesarios en cada render.",
+      "✅ Es útil cuando se trabaja con listas filtradas, cálculos pesados o dependencias de efectos.",
+      "✅ Se debe usar con moderación, ya que su uso excesivo puede afectar el rendimiento."
+    ],
+    en: [
+      "✅ useMemo helps reduce unnecessary expensive calculations on each render.",
+      "✅ It is useful when working with filtered lists, heavy computations, or effect dependencies.",
+      "✅ It should be used with moderation, as excessive use can affect performance."
+    ]
+  }
 };
 
 export default concept;

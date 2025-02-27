@@ -1,186 +1,237 @@
 import { Concept } from "@/types/concept";
 
 const concept: Concept = {
-  title: "useReducer en React",
+  title: {
+    es: "useReducer en React",
+    en: "useReducer in React"
+  },
   slug: "use-reducer",
-  description:
-    "useReducer es un hook de React que se usa para manejar estados más complejos y lógicos que dependen del estado previo. Es una alternativa a useState cuando la gestión del estado requiere múltiples subvalores o lógica avanzada.",
+  description: {
+    es: "useReducer es un hook de React que permite manejar estados complejos mediante una función reductora. Centraliza la lógica de actualización del estado, lo que lo hace ideal para componentes con múltiples subvalores o lógica condicional compleja.",
+    en: "useReducer is a React hook that allows you to manage complex state using a reducer function. It centralizes state update logic, making it ideal for components with multiple sub-values or complex conditional logic."
+  },
   sections: [
     {
       type: "text",
-      title: "🔹¿Cómo funciona?",
-      code: `const [state, dispatch] = useReducer(reducer, initialState);`,
-      content:
-        "useReducer toma una función reducer y un estado inicial. Devuelve el estado actual y una función dispatch para actualizarlo.",
+      title: {
+        es: "🔹¿Cómo funciona?",
+        en: "🔹How does it work?"
+      },
+      code: "const [state, dispatch] = useReducer(reducer, initialState);",
+      content: {
+        es: "useReducer recibe un reducer y un estado inicial, y retorna el estado actual junto con una función dispatch para actualizarlo. Toda la lógica de actualización se centraliza en el reducer.",
+        en: "useReducer takes a reducer and an initial state, returning the current state along with a dispatch function to update it. All update logic is centralized in the reducer."
+      }
     },
     {
       type: "list",
-      title: "🔹¿Cuándo usar useReducer en lugar de useState?",
-      content: [
-        "Cuando el estado tiene múltiples subvalores que cambian juntos.",
-        "Cuando las actualizaciones del estado dependen del estado anterior.",
-        "Cuando quieres centralizar la lógica de actualización en un solo lugar.",
-      ],
+      title: {
+        es: "🔹¿Cuándo usar useReducer?",
+        en: "🔹When to use useReducer?"
+      },
+      content: {
+        es: [
+          "Cuando el estado es complejo y tiene múltiples subvalores.",
+          "Cuando se requiere centralizar la lógica de actualización en un solo lugar.",
+          "Cuando la actualización del estado depende de manera compleja del estado previo."
+        ],
+        en: [
+          "When the state is complex and involves multiple sub-values.",
+          "When you need to centralize update logic in one place.",
+          "When state updates depend on the previous state in a complex manner."
+        ]
+      }
     },
     {
       type: "table",
-      title: "🔹Comparación entre useState y useReducer",
-      headers: ["Característica", "useState", "useReducer"],
+      title: {
+        es: "🔹Comparación entre useState y useReducer",
+        en: "🔹Comparison between useState and useReducer"
+      },
+      headers: {
+        es: ["Característica", "useState", "useReducer"],
+        en: ["Feature", "useState", "useReducer"]
+      },
       rows: [
-        ["Simplicidad", "✅ Fácil de usar", "🚀 Mejor para lógica compleja"],
-        ["Múltiples valores", "❌ Requiere varios estados", "✅ Manejo centralizado"],
-        ["Dependencia del estado previo", "⚠️ Puede ser problemático", "✅ Reducer maneja cambios secuenciales"],
-      ],
+        {
+          es: ["Lógica de actualización", "Distribuida en varios estados", "Centralizada en un reducer"],
+          en: ["Update logic", "Spread across multiple useState calls", "Centralized in a reducer"]
+        },
+        {
+          es: ["Complejidad", "Adecuado para casos simples", "Ideal para casos complejos"],
+          en: ["Complexity", "Suitable for simple cases", "Ideal for complex cases"]
+        },
+        {
+          es: ["Predecibilidad", "Menos predecible", "Más predecible con un reducer"],
+          en: ["Predictability", "Less predictable", "More predictable with a reducer"]
+        }
+      ]
     },
     {
       type: "example",
-      title: "1️⃣ Ejemplo práctico de useReducer",
-      caseTitle: "Contador avanzado con useReducer",
-      caseDescription:
-        "Este ejemplo muestra cómo usar useReducer para manejar un contador con múltiples acciones.",
-      code: `
-        import { useReducer } from "react";
+      title: {
+        es: "1️⃣ Ejemplo práctico de useReducer",
+        en: "1️⃣ Practical example of useReducer"
+      },
+      caseTitle: {
+        es: "Contador simple con useReducer",
+        en: "Simple counter with useReducer"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo implementar un contador utilizando useReducer.",
+        en: "This example demonstrates how to implement a counter using useReducer."
+      },
+      code: `import { useReducer } from "react";
 
-        const counterReducer = (state, action) => {
-          switch (action.type) {
-            case "INCREMENT":
-              return { count: state.count + 1 };
-            case "DECREMENT":
-              return { count: state.count - 1 };
-            case "RESET":
-              return { count: 0 };
-            default:
-              return state;
-          }
-        };
+function reducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return state + 1;
+    case "decrement":
+      return state - 1;
+    default:
+      return state;
+  }
+}
 
-        const Counter = () => {
-          const [state, dispatch] = useReducer(counterReducer, { count: 0 });
+const Counter = () => {
+  const [count, dispatch] = useReducer(reducer, 0);
+  
+  return (
+    <div>
+      <p>Contador: {count}</p>
+      <button onClick={() => dispatch({ type: "increment" })}>Incrementar</button>
+      <button onClick={() => dispatch({ type: "decrement" })}>Decrementar</button>
+    </div>
+  );
+};
 
-          return (
-            <div>
-              <p>Contador: {state.count}</p>
-              <button onClick={() => dispatch({ type: "INCREMENT" })}>➕</button>
-              <button onClick={() => dispatch({ type: "DECREMENT" })}>➖</button>
-              <button onClick={() => dispatch({ type: "RESET" })}>🔄 Reset</button>
-            </div>
-          );
-        };
-
-        export default Counter;
-      `,
-      conclusion:
-        "🔥 Beneficio: Con useReducer, la lógica de actualización del contador está centralizada y organizada.",
+export default Counter;`,
+      conclusion: {
+        es: "🔥 Beneficio: useReducer centraliza la lógica de actualización, haciendo el estado más predecible y fácil de gestionar en casos complejos.",
+        en: "🔥 Benefit: useReducer centralizes update logic, making state more predictable and easier to manage in complex cases."
+      }
     },
     {
       type: "example",
-      title: "2️⃣ Ejemplo práctico de useReducer",
-      caseTitle: "Manejo de formulario con useReducer",
-      caseDescription:
-        "Este ejemplo muestra cómo manejar el estado de un formulario con useReducer, manteniendo toda la lógica centralizada.",
-      code: `
-        import { useReducer } from "react";
+      title: {
+        es: "2️⃣ Ejemplo práctico de useReducer",
+        en: "2️⃣ Practical example of useReducer"
+      },
+      caseTitle: {
+        es: "Manejo de formularios con useReducer",
+        en: "Form handling with useReducer"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo usar useReducer para gestionar los datos de un formulario de manera centralizada.",
+        en: "This example demonstrates how to use useReducer to centrally manage form data."
+      },
+      code: `import { useReducer } from "react";
 
-        const formReducer = (state, action) => {
-          switch (action.type) {
-            case "SET_NAME":
-              return { ...state, name: action.payload };
-            case "SET_EMAIL":
-              return { ...state, email: action.payload };
-            case "RESET":
-              return { name: "", email: "" };
-            default:
-              return state;
-          }
-        };
+const initialState = { name: "", email: "" };
 
-        const FormExample = () => {
-          const [state, dispatch] = useReducer(formReducer, { name: "", email: "" });
+function formReducer(state, action) {
+  switch (action.type) {
+    case "SET_FIELD":
+      return { ...state, [action.field]: action.value };
+    case "RESET":
+      return initialState;
+    default:
+      return state;
+  }
+}
 
-          return (
-            <div>
-              <input
-                type="text"
-                value={state.name}
-                onChange={(e) => dispatch({ type: "SET_NAME", payload: e.target.value })}
-                placeholder="Nombre"
-              />
-              <input
-                type="email"
-                value={state.email}
-                onChange={(e) => dispatch({ type: "SET_EMAIL", payload: e.target.value })}
-                placeholder="Correo"
-              />
-              <button onClick={() => dispatch({ type: "RESET" })}>Reset</button>
-            </div>
-          );
-        };
+const FormComponent = () => {
+  const [state, dispatch] = useReducer(formReducer, initialState);
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    dispatch({ type: "SET_FIELD", field: name, value });
+  };
+  
+  return (
+    <form>
+      <input\n        type=\"text\"\n        name=\"name\"\n        value={state.name}\n        onChange={handleChange}\n        placeholder=\"Nombre\"\n      />\n      <input\n        type=\"email\"\n        name=\"email\"\n        value={state.email}\n        onChange={handleChange}\n        placeholder=\"Correo\"\n      />\n      <button type=\"button\" onClick={() => dispatch({ type: \"RESET\" })}>\n        Resetear\n      </button>\n    </form>\n  );\n};
 
-        export default FormExample;
-      `,
-      conclusion:
-        "🔥 Beneficio: Con useReducer, la actualización del formulario está centralizada en una sola función, evitando múltiples llamadas a useState.",
+export default FormComponent;`,
+      conclusion: {
+        es: "🔥 Beneficio: useReducer simplifica la gestión de formularios complejos al centralizar la lógica de actualización.",
+        en: "🔥 Benefit: useReducer simplifies complex form management by centralizing update logic."
+      }
     },
     {
       type: "example",
-      title: "3️⃣ Ejemplo práctico de useReducer",
-      caseTitle: "Gestión de carrito de compras con useReducer",
-      caseDescription:
-        "Un ejemplo de cómo manejar un carrito de compras con useReducer para agregar, eliminar y vaciar productos.",
-      code: `
-        import { useReducer } from "react";
+      title: {
+        es: "3️⃣ Ejemplo práctico de useReducer",
+        en: "3️⃣ Practical example of useReducer"
+      },
+      caseTitle: {
+        es: "Toggle de un booleano con useReducer",
+        en: "Boolean toggle with useReducer"
+      },
+      caseDescription: {
+        es: "Este ejemplo demuestra cómo alternar un valor booleano utilizando useReducer para gestionar el estado.",
+        en: "This example demonstrates how to toggle a boolean value using useReducer for state management."
+      },
+      code: `import { useReducer } from "react";
 
-        const cartReducer = (state, action) => {
-          switch (action.type) {
-            case "ADD_ITEM":
-              return [...state, action.payload];
-            case "REMOVE_ITEM":
-              return state.filter((item) => item.id !== action.payload.id);
-            case "CLEAR_CART":
-              return [];
-            default:
-              return state;
-          }
-        };
+function toggleReducer(state, action) {
+  switch (action.type) {
+    case "toggle":
+      return !state;
+    default:
+      return state;
+  }
+}
 
-        const ShoppingCart = () => {
-          const [cart, dispatch] = useReducer(cartReducer, []);
+const ToggleComponent = () => {
+  const [isOn, dispatch] = useReducer(toggleReducer, false);
+  return (
+    <div>
+      <p>{isOn ? "Encendido" : "Apagado"}</p>
+      <button onClick={() => dispatch({ type: "toggle" })}>Alternar</button>
+    </div>
+  );
+};
 
-          return (
-            <div>
-              <button onClick={() => dispatch({ type: "ADD_ITEM", payload: { id: 1, name: "Producto 1" } })}>
-                🛒 Agregar Producto 1
-              </button>
-              <button onClick={() => dispatch({ type: "CLEAR_CART" })}>🗑 Vaciar Carrito</button>
-              <ul>
-                {cart.map((item) => (
-                  <li key={item.id}>
-                    {item.name}{" "}
-                    <button onClick={() => dispatch({ type: "REMOVE_ITEM", payload: item })}>❌</button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        };
-
-        export default ShoppingCart;
-      `,
-      conclusion:
-        "🔥 Beneficio: useReducer facilita la gestión de estados complejos como un carrito de compras, agrupando toda la lógica en un solo reducer.",
+export default ToggleComponent;`,
+      conclusion: {
+        es: "🔥 Beneficio: useReducer permite manejar toggles y estados booleanos de forma clara y centralizada.",
+        en: "🔥 Benefit: useReducer enables clear and centralized management of boolean toggles."
+      }
     },
     {
       type: "list",
-      title: "📌 ¿Cuándo NO usar useReducer?",
-      content: [
-        "❌ Si el estado es simple (booleanos, strings, números). Usa useState mejor.",
-        "❌ Si las actualizaciones del estado no dependen del estado anterior.",
-        "❌ Si el estado no es lo suficientemente complejo como para justificar su uso.",
-      ],
-    },
+      title: {
+        es: "📌 ¿Cuándo no usar useReducer?",
+        en: "📌 When NOT to use useReducer?"
+      },
+      content: {
+        es: [
+          "❌ Si el estado es muy simple, useState es suficiente.",
+          "❌ Si la lógica de actualización no es compleja.",
+          "❌ Si no se necesita centralizar múltiples actualizaciones en un solo lugar."
+        ],
+        en: [
+          "❌ If the state is very simple, useState is sufficient.",
+          "❌ If the update logic is not complex.",
+          "❌ If there is no need to centralize multiple updates in one place."
+        ]
+      }
+    }
   ],
-  conclusion:
-    "useReducer es una gran opción cuando el estado es complejo o tiene múltiples valores interdependientes. Es útil cuando se necesita una lógica de actualización estructurada y centralizada.",
+  conclusion: {
+    es: [
+      "✅ useReducer centraliza la lógica de actualización, facilitando la gestión de estados complejos.",
+      "✅ Es ideal para manejar múltiples subvalores y actualizaciones condicionales.",
+      "✅ Permite un flujo de datos más predecible en el componente."
+    ],
+    en: [
+      "✅ useReducer centralizes update logic, making complex state management easier.",
+      "✅ It is ideal for handling multiple sub-values and conditional updates.",
+      "✅ It provides a more predictable data flow within the component."
+    ]
+  }
 };
 
 export default concept;

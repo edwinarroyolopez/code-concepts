@@ -1,163 +1,220 @@
 import { Concept } from "@/types/concept";
 
 const concept: Concept = {
-  title: "useDeferredValue en React",
+  title: {
+    es: "useDeferredValue en React",
+    en: "useDeferredValue in React"
+  },
   slug: "use-deferred-value",
-  description:
-    "useDeferredValue es un hook de React que permite diferir la actualización de un valor para evitar bloqueos en la UI en situaciones donde hay cambios rápidos de estado.",
+  description: {
+    es: "useDeferredValue es un hook de React que retrasa la actualización de un valor para evitar bloqueos en la interfaz de usuario durante operaciones costosas.",
+    en: "useDeferredValue is a React hook that delays updating a value to prevent UI blocking during expensive operations."
+  },
   sections: [
     {
       type: "text",
-      title: "🔹¿Cómo funciona?",
-      code: `const deferredValue = useDeferredValue(value);`,
-      content:
-        "useDeferredValue retrasa la actualización de un valor hasta que la UI tenga recursos disponibles, evitando bloqueos innecesarios en la renderización.",
+      title: {
+        es: "🔹¿Cómo funciona?",
+        en: "🔹How does it work?"
+      },
+      code: "const deferredValue = useDeferredValue(value);",
+      content: {
+        es: "useDeferredValue devuelve una versión diferida del valor de entrada, actualizándose cuando la UI tiene capacidad disponible, lo que mejora la fluidez durante actualizaciones costosas.",
+        en: "useDeferredValue returns a deferred version of the input value, updating when the UI has available capacity, which improves smoothness during expensive updates."
+      }
     },
     {
       type: "list",
-      title: "🔹¿Cuándo usar useDeferredValue?",
-      content: [
-        "Cuando un estado cambia rápidamente y la UI se vuelve lenta.",
-        "Cuando se necesita evitar bloqueos en renders pesados mientras el usuario interactúa.",
-        "Cuando se optimiza el rendimiento en búsquedas o filtrados en listas grandes.",
-      ],
+      title: {
+        es: "🔹¿Cuándo usar useDeferredValue?",
+        en: "🔹When to use useDeferredValue?"
+      },
+      content: {
+        es: [
+          "Cuando se realizan actualizaciones de estado costosas que pueden bloquear la UI.",
+          "Para diferir actualizaciones en búsquedas en tiempo real o listas grandes y mantener la interactividad.",
+          "Cuando se desea mostrar un indicador de carga mientras se procesan actualizaciones en segundo plano."
+        ],
+        en: [
+          "When performing expensive state updates that might block the UI.",
+          "To defer updates in real-time searches or large lists to maintain interactivity.",
+          "When you want to show a loading indicator while background updates are processed."
+        ]
+      }
     },
     {
       type: "table",
-      title: "🔹Comparación entre useDeferredValue y useTransition",
-      headers: ["Característica", "useDeferredValue", "useTransition"],
+      title: {
+        es: "🔹Comparación entre valores normales y useDeferredValue",
+        en: "🔹Comparison between normal values and useDeferredValue"
+      },
+      headers: {
+        es: ["Característica", "Valor normal", "useDeferredValue"],
+        en: ["Feature", "Normal Value", "useDeferredValue"]
+      },
       rows: [
-        ["Propósito", "Retrasa un valor", "Retrasa una actualización de estado"],
-        ["Afecta múltiples estados", "❌ No", "✅ Sí"],
-        ["Ideal para", "Valores derivados pesados", "Actualizaciones de UI completas"],
-      ],
+        {
+          es: ["Actualización inmediata", "⚠️ Sí", "✅ No, se difiere la actualización"],
+          en: ["Immediate update", "⚠️ Yes", "✅ No, update is deferred"]
+        },
+        {
+          es: ["Fluidez de UI", "❌ Puede bloquear la UI", "✅ Mantiene la UI responsiva"],
+          en: ["UI smoothness", "❌ May block the UI", "✅ Keeps the UI responsive"]
+        },
+        {
+          es: ["Prioridad de actualización", "Inmediata", "Diferida"],
+          en: ["Update priority", "Immediate", "Deferred"]
+        }
+      ]
     },
     {
       type: "example",
-      title: "1️⃣ Ejemplo práctico de useDeferredValue",
-      caseTitle: "Búsqueda con respuesta rápida",
-      caseDescription:
-        "Este ejemplo usa `useDeferredValue` para optimizar la búsqueda en una lista grande.",
-      code: `
-        import { useState, useDeferredValue } from "react";
+      title: {
+        es: "1️⃣ Ejemplo práctico de useDeferredValue",
+        en: "1️⃣ Practical example of useDeferredValue"
+      },
+      caseTitle: {
+        es: "Actualización diferida en una lista grande",
+        en: "Deferred update in a large list"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo actualizar una lista grande sin bloquear la UI usando useDeferredValue.",
+        en: "This example demonstrates how to update a large list without blocking the UI using useDeferredValue."
+      },
+      code: `import { useState, useDeferredValue, useEffect } from "react";
 
-        const LargeList = ({ query }) => {
-          const deferredQuery = useDeferredValue(query);
-          const filteredItems = items.filter(item =>
-            item.toLowerCase().includes(deferredQuery.toLowerCase())
-          );
+const LargeList = () => {
+  const [input, setInput] = useState("");
+  const [list, setList] = useState([]);
+  const deferredInput = useDeferredValue(input);
 
-          return (
-            <ul>
-              {filteredItems.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
-          );
-        };
+  useEffect(() => {
+    const newList = Array.from({ length: 10000 }, (_, i) => deferredInput + i);
+    setList(newList);
+  }, [deferredInput]);
 
-        const SearchComponent = () => {
-          const [query, setQuery] = useState("");
+  return (
+    <div>
+      <input value={input} onChange={e => setInput(e.target.value)} placeholder="Escribe algo..." />
+      <ul>{list.slice(0, 10).map((item, i) => <li key={i}>{item}</li>)}</ul>
+    </div>
+  );
+};
 
-          return (
-            <div>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Buscar..."
-              />
-              <LargeList query={query} />
-            </div>
-          );
-        };
-
-        export default SearchComponent;
-      `,
-      conclusion:
-        "🔥 Beneficio: Mejora la experiencia del usuario al mantener la UI fluida en listas grandes.",
+export default LargeList;`,
+      conclusion: {
+        es: "🔥 Beneficio: Permite actualizar una lista grande sin bloquear la UI, manteniéndola fluida.",
+        en: "🔥 Benefit: It allows updating a large list without blocking the UI, keeping it smooth."
+      }
     },
     {
       type: "example",
-      title: "2️⃣ Ejemplo práctico de useDeferredValue",
-      caseTitle: "Renderizado de gráficos pesados",
-      caseDescription:
-        "Diferir la actualización de valores de un gráfico para evitar bloqueos en la UI.",
-      code: `
-        import { useState, useDeferredValue } from "react";
-        import { Chart } from "./ChartComponent"; 
+      title: {
+        es: "2️⃣ Ejemplo práctico de useDeferredValue",
+        en: "2️⃣ Practical example of useDeferredValue"
+      },
+      caseTitle: {
+        es: "Indicador de carga durante actualizaciones diferidas",
+        en: "Loading indicator during deferred updates"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo mostrar un indicador de carga mientras se difiere la actualización de datos.",
+        en: "This example demonstrates how to display a loading indicator while data updates are deferred."
+      },
+      code: `import { useState, useDeferredValue, useEffect } from "react";
 
-        const ChartExample = () => {
-          const [data, setData] = useState(generateHeavyData());
-          const deferredData = useDeferredValue(data);
+const SearchComponent = () => {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const deferredQuery = useDeferredValue(query);
 
-          return (
-            <div>
-              <button onClick={() => setData(generateHeavyData())}>
-                Actualizar datos
-              </button>
-              <Chart data={deferredData} />
-            </div>
-          );
-        };
+  useEffect(() => {
+    const filtered = ["apple", "banana", "cherry", "date"].filter(item => item.includes(deferredQuery));
+    setResults(filtered);
+  }, [deferredQuery]);
 
-        export default ChartExample;
-      `,
-      conclusion:
-        "🔥 Beneficio: Evita bloqueos en la UI mientras se actualizan gráficos complejos.",
+  return (
+    <div>
+      <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Buscar..." />
+      {results.length === 0 ? <p>Cargando resultados...</p> : <ul>{results.map((item, i) => <li key={i}>{item}</li>)}</ul>}\n    </div>\n  );
+};
+
+export default SearchComponent;`,
+      conclusion: {
+        es: "🔥 Beneficio: La UI se mantiene responsiva mientras se procesan actualizaciones en segundo plano.",
+        en: "🔥 Benefit: The UI remains responsive while background updates are processed."
+      }
     },
     {
       type: "example",
-      title: "3️⃣ Ejemplo práctico de useDeferredValue",
-      caseTitle: "Formulario con validaciones pesadas",
-      caseDescription:
-        "Diferir validaciones pesadas para evitar congelar la UI en cada cambio.",
-      code: `
-        import { useState, useDeferredValue } from "react";
+      title: {
+        es: "3️⃣ Ejemplo práctico de useDeferredValue",
+        en: "3️⃣ Practical example of useDeferredValue"
+      },
+      caseTitle: {
+        es: "Transición en operaciones complejas",
+        en: "Transition in complex operations"
+      },
+      caseDescription: {
+        es: "Este ejemplo demuestra cómo diferir una operación compleja para mejorar la experiencia del usuario.",
+        en: "This example demonstrates how to defer a complex operation to improve user experience."
+      },
+      code: `import { useState, useDeferredValue, useEffect } from "react";
 
-        const validateInput = (input) => {
-          // Simulación de una validación pesada
-          return input.length > 5 ? "Válido" : "Demasiado corto";
-        };
+const ComplexUpdate = () => {
+  const [value, setValue] = useState(0);
+  const deferredValue = useDeferredValue(value);
 
-        const FormExample = () => {
-          const [input, setInput] = useState("");
-          const deferredInput = useDeferredValue(input);
-          const validationMessage = validateInput(deferredInput);
+  useEffect(() => {
+    // Simulación de operación compleja\n    setValue(v => v + 1);
+  }, [deferredValue]);
 
-          return (
-            <div>
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Escribe algo..."
-              />
-              <p>{validationMessage}</p>
-            </div>
-          );
-        };
+  return (
+    <div>
+      <p>Valor: {value}</p>
+      <button onClick={() => setValue(value + 1)}>Actualizar</button>
+    </div>
+  );
+};
 
-        export default FormExample;
-      `,
-      conclusion:
-        "🔥 Beneficio: Permite una experiencia más fluida en formularios con validaciones pesadas.",
+export default ComplexUpdate;`,
+      conclusion: {
+        es: "🔥 Beneficio: Permite diferir operaciones complejas, manteniendo la UI fluida durante la actualización.",
+        en: "🔥 Benefit: It defers complex operations, keeping the UI smooth during updates."
+      }
     },
     {
       type: "list",
-      title: "📌 ¿Cuándo NO usar useDeferredValue?",
-      content: [
-        "❌ Si el valor no es costoso de calcular, no hay necesidad de diferirlo.",
-        "❌ Si se requiere una actualización inmediata, es mejor `useState` sin diferir.",
-        "❌ Si se necesita optimizar una transición completa, es mejor `useTransition`.",
-      ],
-    },
+      title: {
+        es: "📌 ¿Cuándo no usar useDeferredValue?",
+        en: "📌 When NOT to use useDeferredValue?"
+      },
+      content: {
+        es: [
+          "❌ Si se necesita una actualización inmediata del valor, ya que useDeferredValue retrasa la actualización.",
+          "❌ Para valores críticos que deben reflejarse al instante en la UI.",
+          "❌ Cuando el retraso en la actualización pueda afectar negativamente la experiencia del usuario."
+        ],
+        en: [
+          "❌ If an immediate update is needed, since useDeferredValue delays the update.",
+          "❌ For critical values that must be updated instantly in the UI.",
+          "❌ When the delay in updating could negatively impact the user experience."
+        ]
+      }
+    }
   ],
-  conclusion: [
-    "✅ `useDeferredValue` mejora el rendimiento diferiendo valores derivados costosos.",
-    "✅ Se usa en listas grandes, gráficos y validaciones pesadas.",
-    "✅ Mantiene la UI fluida sin retrasar la interacción del usuario.",
-  ],
+  conclusion: {
+    es: [
+      "✅ useDeferredValue ayuda a mantener la UI responsiva durante actualizaciones costosas.",
+      "✅ Es útil en búsquedas en tiempo real y actualizaciones de listas grandes.",
+      "✅ Debe usarse con precaución para evitar retrasos en valores críticos."
+    ],
+    en: [
+      "✅ useDeferredValue helps keep the UI responsive during expensive updates.",
+      "✅ It is useful for real-time searches and updating large lists.",
+      "✅ It should be used cautiously to avoid delays in critical values."
+    ]
+  }
 };
 
 export default concept;

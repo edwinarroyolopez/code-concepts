@@ -1,137 +1,218 @@
 import { Concept } from "@/types/concept";
 
 const concept: Concept = {
-  title: "useRef en React",
+  title: {
+    es: "useRef en React",
+    en: "useRef in React"
+  },
   slug: "use-ref",
-  description:
-    "useRef es un hook de React que permite crear referencias persistentes entre renders, útil para acceder a elementos del DOM o mantener valores sin provocar re-renderizados.",
+  description: {
+    es: "useRef es un hook de React que permite crear una referencia mutable que persiste durante todo el ciclo de vida del componente. Es útil para acceder a elementos del DOM o almacenar valores que no necesitan desencadenar una nueva renderización cuando cambian.",
+    en: "useRef is a React hook that allows you to create a mutable reference that persists throughout the component's lifecycle. It is useful for accessing DOM elements or storing values that do not need to trigger a re-render when they change."
+  },
   sections: [
     {
       type: "text",
-      title: "🔹¿Cómo funciona?",
-      code: `const myRef = useRef(initialValue);`,
-      content:
-        "useRef devuelve un objeto mutable cuya propiedad `.current` puede almacenar valores sin causar re-renderizados del componente.",
+      title: {
+        es: "🔹¿Cómo funciona?",
+        en: "🔹How does it work?"
+      },
+      code: "const refContainer = useRef(initialValue);",
+      content: {
+        es: "useRef devuelve un objeto con una propiedad `current` que se puede usar para almacenar un valor mutable. Este valor persiste entre renders y no causa una nueva renderización cuando cambia.",
+        en: "useRef returns an object with a `current` property that can be used to store a mutable value. This value persists between renders and does not cause a re-render when it changes."
+      }
     },
     {
       type: "list",
-      title: "🔹¿Cuándo usar useRef?",
-      content: [
-        "Cuando necesitas acceder directamente a un elemento del DOM.",
-        "Cuando quieres almacenar valores sin provocar re-renderizados.",
-        "Cuando necesitas manejar referencias entre renders sin afectar el estado.",
-      ],
+      title: {
+        es: "🔹¿Cuándo usar useRef?",
+        en: "🔹When to use useRef?"
+      },
+      content: {
+        es: [
+          "Cuando necesitas acceder directamente a un elemento del DOM.",
+          "Cuando necesitas almacenar un valor que no debe causar una nueva renderización cuando cambia.",
+          "Cuando necesitas mantener un valor mutable entre renders sin desencadenar efectos secundarios."
+        ],
+        en: [
+          "When you need to directly access a DOM element.",
+          "When you need to store a value that should not cause a re-render when it changes.",
+          "When you need to maintain a mutable value between renders without triggering side effects."
+        ]
+      }
     },
     {
       type: "table",
-      title: "🔹Comparación entre useRef y useState",
-      headers: ["Característica", "useRef", "useState"],
+      title: {
+        es: "🔹Comparación entre useRef y useState",
+        en: "🔹Comparison between useRef and useState"
+      },
+      headers: {
+        es: ["Característica", "useState", "useRef"],
+        en: ["Feature", "useState", "useRef"]
+      },
       rows: [
-        ["Provoca re-render", "❌ No", "✅ Sí"],
-        ["Referencia a DOM", "✅ Sí", "❌ No"],
-        ["Mantiene valor entre renders", "✅ Sí", "✅ Sí"],
-      ],
+        {
+          es: ["Desencadena renderización", "✅ Sí", "❌ No"],
+          en: ["Triggers re-render", "✅ Yes", "❌ No"]
+        },
+        {
+          es: ["Almacenamiento de valores", "✅ Sí", "✅ Sí"],
+          en: ["Stores values", "✅ Yes", "✅ Yes"]
+        },
+        {
+          es: ["Acceso a elementos del DOM", "❌ No", "✅ Sí"],
+          en: ["Access to DOM elements", "❌ No", "✅ Yes"]
+        }
+      ]
     },
     {
       type: "example",
-      title: "1️⃣ Ejemplo práctico de useRef",
-      caseTitle: "Acceder a un input sin re-render",
-      caseDescription:
-        "Este ejemplo usa `useRef` para enfocar un input sin re-renderizar el componente.",
-      code: `
-        import { useRef } from "react";
+      title: {
+        es: "1️⃣ Ejemplo práctico de useRef",
+        en: "1️⃣ Practical example of useRef"
+      },
+      caseTitle: {
+        es: "Acceso a un elemento del DOM",
+        en: "Accessing a DOM element"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo usar useRef para acceder a un elemento del DOM y enfocarlo.",
+        en: "This example demonstrates how to use useRef to access a DOM element and focus it."
+      },
+      code: `import { useRef } from "react";
 
-        const FocusInput = () => {
-          const inputRef = useRef(null);
+const FocusInput = () => {
+  const inputRef = useRef(null);
 
-          const handleClick = () => {
-            inputRef.current.focus();
-          };
+  const handleClick = () => {
+    inputRef.current.focus();
+  };
 
-          return (
-            <div>
-              <input ref={inputRef} type="text" placeholder="Escribe algo..." />
-              <button onClick={handleClick}>Enfocar</button>
-            </div>
-          );
-        };
+  return (
+    <div>
+      <input ref={inputRef} type="text" />
+      <button onClick={handleClick}>Enfocar input</button>
+    </div>
+  );
+};
 
-        export default FocusInput;
-      `,
-      conclusion:
-        "🔥 Beneficio: Permite manipular el DOM directamente sin afectar el rendimiento.",
+export default FocusInput;`,
+      conclusion: {
+        es: "🔥 Beneficio: `inputRef` permite acceder directamente al elemento del DOM sin causar una nueva renderización.",
+        en: "🔥 Benefit: `inputRef` allows direct access to the DOM element without causing a re-render."
+      }
     },
     {
       type: "example",
-      title: "2️⃣ Ejemplo práctico de useRef",
-      caseTitle: "Contador sin re-renderizado",
-      caseDescription:
-        "Usar `useRef` para almacenar un valor que no provoca re-render.",
-      code: `
-        import { useRef, useState } from "react";
+      title: {
+        es: "2️⃣ Ejemplo práctico de useRef",
+        en: "2️⃣ Practical example of useRef"
+      },
+      caseTitle: {
+        es: "Almacenar un valor mutable",
+        en: "Storing a mutable value"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo usar useRef para almacenar un valor que no debe causar una nueva renderización cuando cambia.",
+        en: "This example demonstrates how to use useRef to store a value that should not cause a re-render when it changes."
+      },
+      code: `import { useRef, useState } from "react";
 
-        const CounterExample = () => {
-          const countRef = useRef(0);
-          const [, forceRender] = useState(0);
+const CounterComponent = () => {
+  const [count, setCount] = useState(0);
+  const prevCountRef = useRef();
 
-          const increment = () => {
-            countRef.current += 1;
-            console.log("Valor actual:", countRef.current);
-          };
+  const handleClick = () => {
+    prevCountRef.current = count;
+    setCount(count + 1);
+  };
 
-          return (
-            <div>
-              <p>El contador no re-renderiza: {countRef.current}</p>
-              <button onClick={increment}>Incrementar</button>
-              <button onClick={() => forceRender((prev) => prev + 1)}>Forzar Render</button>
-            </div>
-          );
-        };
+  return (
+    <div>
+      <p>Actual: {count}</p>
+      <p>Anterior: {prevCountRef.current}</p>
+      <button onClick={handleClick}>Incrementar</button>
+    </div>
+  );
+};
 
-        export default CounterExample;
-      `,
-      conclusion:
-        "🔥 Beneficio: Almacenar valores sin afectar la renderización del componente.",
+export default CounterComponent;`,
+      conclusion: {
+        es: "🔥 Beneficio: `prevCountRef` almacena el valor anterior sin causar una nueva renderización.",
+        en: "🔥 Benefit: `prevCountRef` stores the previous value without causing a re-render."
+      }
     },
     {
       type: "example",
-      title: "3️⃣ Ejemplo práctico de useRef",
-      caseTitle: "Persistencia de valores entre renders",
-      caseDescription:
-        "Se usa `useRef` para guardar valores entre renders sin afectar la UI.",
-      code: `
-        import { useRef, useEffect } from "react";
+      title: {
+        es: "3️⃣ Ejemplo práctico de useRef",
+        en: "3️⃣ Practical example of useRef"
+      },
+      caseTitle: {
+        es: "Mantener un valor entre renders",
+        en: "Maintaining a value between renders"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo usar useRef para mantener un valor mutable entre renders sin desencadenar efectos secundarios.",
+        en: "This example demonstrates how to use useRef to maintain a mutable value between renders without triggering side effects."
+      },
+      code: `import { useRef, useEffect } from "react";
 
-        const TimerExample = () => {
-          const renderCount = useRef(0);
+const TimerComponent = () => {
+  const timerRef = useRef(0);
 
-          useEffect(() => {
-            renderCount.current += 1;
-          });
+  useEffect(() => {
+    const interval = setInterval(() => {
+      timerRef.current += 1;
+      console.log("Tiempo transcurrido:", timerRef.current);
+    }, 1000);
 
-          return <p>El componente se ha renderizado {renderCount.current} veces.</p>;
-        };
+    return () => clearInterval(interval);
+  }, []);
 
-        export default TimerExample;
-      `,
-      conclusion:
-        "🔥 Beneficio: Permite contar renders sin alterar la UI o el estado.",
+  return <div>Timer en consola</div>;
+};
+
+export default TimerComponent;`,
+      conclusion: {
+        es: "🔥 Beneficio: `timerRef` mantiene el valor del temporizador entre renders sin causar una nueva renderización.",
+        en: "🔥 Benefit: `timerRef` maintains the timer value between renders without causing a re-render."
+      }
     },
     {
       type: "list",
-      title: "📌 ¿Cuándo NO usar useRef?",
-      content: [
-        "❌ Si necesitas que un cambio de valor provoque una actualización en la UI, usa `useState`.",
-        "❌ Si la referencia es para manejar lógica de estado compleja, `useReducer` es una mejor opción.",
-        "❌ Si necesitas compartir estado entre componentes, `useContext` o un estado global son mejores opciones.",
-      ],
-    },
+      title: {
+        es: "📌 ¿Cuándo NO usar useRef?",
+        en: "📌 When NOT to use useRef?"
+      },
+      content: {
+        es: [
+          "❌ Si necesitas que un cambio en el valor desencadene una renderización, usa `useState` en su lugar.",
+          "❌ Si no necesitas acceder a un elemento del DOM o almacenar un valor mutable.",
+          "❌ Si el valor no necesita persistir entre renders."
+        ],
+        en: [
+          "❌ If you need a change in value to trigger a re-render, use `useState` instead.",
+          "❌ If you don't need to access a DOM element or store a mutable value.",
+          "❌ If the value does not need to persist between renders."
+        ]
+      }
+    }
   ],
-  conclusion: [
-    "✅ `useRef` es útil para acceder a elementos del DOM sin causar re-render.",
-    "✅ Permite almacenar valores entre renders sin afectar el estado del componente.",
-    "✅ Se usa para contar renders, manejar timers y referencias directas en el DOM.",
-  ],
+  conclusion: {
+    es: [
+      "✅ useRef es útil para acceder a elementos del DOM y almacenar valores mutables sin causar una nueva renderización.",
+      "✅ Es ideal para mantener valores entre renders sin desencadenar efectos secundarios.",
+      "✅ No debe usarse si el cambio en el valor debe desencadenar una renderización."
+    ],
+    en: [
+      "✅ useRef is useful for accessing DOM elements and storing mutable values without causing a re-render.",
+      "✅ It is ideal for maintaining values between renders without triggering side effects.",
+      "✅ It should not be used if a change in value should trigger a re-render."
+    ]
+  }
 };
 
 export default concept;

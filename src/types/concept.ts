@@ -1,37 +1,47 @@
+export type LocalizedString = {
+  es: string;
+  en: string;
+};
+
+export type LocalizedStringArray = {
+  es: string[];
+  en: string[];
+};
+
 export type TextSection = {
   type: "text";
-  title: string;
+  title: LocalizedString;
   code?: string;
-  content: string;
+  content: LocalizedString;
 };
 
 export type ListSection = {
   type: "list";
-  title: string;
-  content: string[];
+  title: LocalizedString;
+  content: LocalizedStringArray;
 };
 
 export type CodeSection = {
   type: "code";
-  title: string;
-  content: string;
-};
+  title: LocalizedString;
+  content: string; // El código suele ser universal y no requiere localización
+  };
 
 export type TableSection = {
-  type: "table"; 
-  title: string; 
-  headers: string[]; 
-  rows: string[][]
-}
+    type: "table";
+    title: LocalizedString;
+    headers: LocalizedStringArray;
+    rows: { es: string[]; en: string[] }[];
+  };
 
 export type ExampleSection = {
-  type: "example";
-  title: string;
-  caseTitle: string;
-  caseDescription: string;
-  code: string;
-  conclusion: string;
-};
+    type: "example";
+    title: LocalizedString;
+    caseTitle: LocalizedString;
+    caseDescription: LocalizedString;
+    code: string;
+    conclusion: LocalizedString;
+  };
 
 export type ConceptSection =
   | TextSection
@@ -41,10 +51,11 @@ export type ConceptSection =
   | ExampleSection;
 
 export type Concept = {
-  title: string;
-  slug: string;
-  description: string;
-  code?: string;
-  conclusion?: string | string[];
-  sections?: ConceptSection[];
+    title: LocalizedString;
+    slug: string;
+    description: LocalizedString;
+    code?: string;
+    conclusion?: LocalizedString | LocalizedStringArray;
+    sections?: ConceptSection[];
+  
 };

@@ -1,136 +1,186 @@
 import { Concept } from "@/types/concept";
 
 const concept: Concept = {
-  title: "useEffect en React",
+  title: {
+    es: "useEffect en React",
+    en: "useEffect in React"
+  },
   slug: "use-effect",
-  description:
-    "useEffect es un hook de React que permite ejecutar efectos secundarios en los componentes funcionales, como llamadas a APIs, suscripciones o manipulación del DOM.",
+  description: {
+    es: "useEffect es un hook de React que permite manejar efectos secundarios en componentes funcionales, como suscripciones, llamadas a API y manipulación del DOM.",
+    en: "useEffect is a React hook that allows handling side effects in functional components, such as subscriptions, API calls, and DOM manipulation."
+  },
   sections: [
     {
       type: "text",
-      title: "🔹¿Cómo funciona?",
-      code: `useEffect(() => { /* efecto */ }, [dependencias]);`,
-      content:
-        "useEffect recibe una función de efecto y un array de dependencias. Se ejecuta tras el renderizado y nuevamente cuando cambian sus dependencias.",
+      title: {
+        es: "🔹¿Cómo funciona?",
+        en: "🔹How does it work?"
+      },
+      code: "useEffect(callback, [dependencies]);",
+      content: {
+        es: "useEffect ejecuta una función cuando el componente se monta, se actualiza o se desmonta, dependiendo de las dependencias proporcionadas.",
+        en: "useEffect runs a function when the component mounts, updates, or unmounts, depending on the provided dependencies."
+      }
     },
     {
       type: "list",
-      title: "🔹¿Cuándo usar useEffect?",
-      content: [
-        "Cuando necesitas ejecutar código después del renderizado.",
-        "Cuando trabajas con efectos secundarios como llamadas a APIs o suscripciones.",
-        "Cuando quieres ejecutar código solo una vez al montar el componente.",
-      ],
-    },
-    {
-      type: "table",
-      title: "🔹Variantes de uso de useEffect",
-      headers: ["Caso", "Explicación"],
-      rows: [
-        ["Sin dependencias", "Se ejecuta en cada render."],
-        ["Con un array vacío `[]`", "Solo se ejecuta una vez al montar el componente."],
-        ["Con dependencias `[var]`", "Se ejecuta cuando `var` cambia."],
-        ["Cleanup en return", "Se usa para limpiar suscripciones o efectos."],
-      ],
-    },
-    {
-      type: "example",
-      title: "1️⃣ Ejemplo práctico de useEffect",
-      caseTitle: "Llamar a una API al montar el componente",
-      caseDescription:
-        "Este ejemplo usa `useEffect` para obtener datos de una API cuando el componente se monta.",
-      code: `
-        import { useState, useEffect } from "react";
-
-        const FetchData = () => {
-          const [data, setData] = useState(null);
-
-          useEffect(() => {
-            fetch("https://jsonplaceholder.typicode.com/posts/1")
-              .then(response => response.json())
-              .then(json => setData(json));
-          }, []);
-
-          return <pre>{JSON.stringify(data, null, 2)}</pre>;
-        };
-
-        export default FetchData;
-      `,
-      conclusion:
-        "🔥 Beneficio: Permite obtener datos de una API solo al montar el componente.",
+      title: {
+        es: "🔹¿Cuándo usar useEffect?",
+        en: "🔹When to use useEffect?"
+      },
+      content: {
+        es: [
+          "Para realizar llamadas a API cuando un componente se monta.",
+          "Para suscribirse a eventos o manejar intervalos y temporizadores.",
+          "Para actualizar el estado cuando cambian ciertas dependencias."
+        ],
+        en: [
+          "To make API calls when a component mounts.",
+          "To subscribe to events or handle intervals and timers.",
+          "To update state when certain dependencies change."
+        ]
+      }
     },
     {
       type: "example",
-      title: "2️⃣ Ejemplo práctico de useEffect",
-      caseTitle: "Actualizar el título del documento dinámicamente",
-      caseDescription:
-        "Este ejemplo cambia el título de la pestaña cada vez que el estado cambia.",
-      code: `
-        import { useState, useEffect } from "react";
+      title: {
+        es: "1️⃣ Ejemplo práctico de useEffect",
+        en: "1️⃣ Practical example of useEffect"
+      },
+      caseTitle: {
+        es: "Llamada a API al montar el componente",
+        en: "API call on component mount"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo realizar una solicitud a una API cuando el componente se monta.",
+        en: "This example demonstrates how to make an API request when the component mounts."
+      },
+      code: `import { useState, useEffect } from "react";
 
-        const DynamicTitle = () => {
-          const [count, setCount] = useState(0);
+const FetchDataComponent = () => {
+  const [data, setData] = useState(null);
 
-          useEffect(() => {
-            document.title = \`Contador: \${count}\`;
-          }, [count]);
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/todos/1")
+      .then(response => response.json())
+      .then(json => setData(json));
+  }, []);
 
-          return (
-            <div>
-              <p>Contador: {count}</p>
-              <button onClick={() => setCount(count + 1)}>Incrementar</button>
-            </div>
-          );
-        };
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+};
 
-        export default DynamicTitle;
-      `,
-      conclusion:
-        "🔥 Beneficio: Permite modificar el título de la página en respuesta a cambios de estado.",
+export default FetchDataComponent;`,
+      conclusion: {
+        es: "🔥 Beneficio: La API solo se llama una vez al montar el componente.",
+        en: "🔥 Benefit: The API is called only once when the component mounts."
+      }
     },
     {
       type: "example",
-      title: "3️⃣ Ejemplo práctico de useEffect",
-      caseTitle: "Limpiar un efecto al desmontar",
-      caseDescription:
-        "Este ejemplo muestra cómo limpiar un intervalo al desmontar el componente.",
-      code: `
-        import { useState, useEffect } from "react";
+      title: {
+        es: "2️⃣ Ejemplo práctico de useEffect",
+        en: "2️⃣ Practical example of useEffect"
+      },
+      caseTitle: {
+        es: "Actualización basada en dependencias",
+        en: "Update based on dependencies"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo ejecutar un efecto solo cuando cambia una variable específica.",
+        en: "This example demonstrates how to run an effect only when a specific variable changes."
+      },
+      code: `import { useState, useEffect } from "react";
 
-        const Timer = () => {
-          const [seconds, setSeconds] = useState(0);
+const CounterComponent = () => {
+  const [count, setCount] = useState(0);
 
-          useEffect(() => {
-            const interval = setInterval(() => {
-              setSeconds(prev => prev + 1);
-            }, 1000);
+  useEffect(() => {
+    console.log("El contador cambió:", count);
+  }, [count]);
 
-            return () => clearInterval(interval);
-          }, []);
+  return (
+    <div>
+      <p>Contador: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Incrementar</button>
+    </div>
+  );
+};
 
-          return <p>Tiempo: {seconds} segundos</p>;
-        };
-
-        export default Timer;
-      `,
-      conclusion:
-        "🔥 Beneficio: Evita fugas de memoria limpiando efectos al desmontar el componente.",
+export default CounterComponent;`,
+      conclusion: {
+        es: "🔥 Beneficio: El efecto solo se ejecuta cuando cambia la variable `count`.",
+        en: "🔥 Benefit: The effect runs only when the `count` variable changes."
+      }
     },
     {
-      type: "list",
-      title: "📌 ¿Cuándo NO usar useEffect?",
-      content: [
-        "❌ Si puedes derivar el valor de un cálculo en el render, no uses `useEffect`.",
-        "❌ Si solo quieres modificar el estado en respuesta a eventos, usa `useState`.",
-        "❌ Si el efecto no tiene efectos secundarios, probablemente no necesites `useEffect`.",
-      ],
+      type: "example",
+      title: {
+        es: "3️⃣ Ejemplo práctico de useEffect",
+        en: "3️⃣ Practical example of useEffect"
+      },
+      caseTitle: {
+        es: "Limpieza de efectos secundarios",
+        en: "Cleanup of side effects"
+      },
+      caseDescription: {
+        es: "Este ejemplo muestra cómo limpiar un efecto al desmontar un componente.",
+        en: "This example demonstrates how to clean up an effect when a component unmounts."
+      },
+      code: `import { useState, useEffect } from "react";
+
+const TimerComponent = () => {
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds(prev => prev + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return <p>Tiempo: {seconds} segundos</p>;
+};
+
+export default TimerComponent;`,
+      conclusion: {
+        es: "🔥 Beneficio: El intervalo se limpia cuando el componente se desmonta, evitando fugas de memoria.",
+        en: "🔥 Benefit: The interval is cleared when the component unmounts, preventing memory leaks."
+      }
     },
+    {
+        type: "list",
+        title: {
+            es: "📌 ¿Cuándo tener cuidado con useEffect?",
+            en: "📌 When to be careful with useEffect?"
+        },
+        content: {
+            es: [
+                "⚠️ Evitar dependencias innecesarias que provoquen renders infinitos.",
+                "⚠️ Limpiar correctamente efectos que pueden causar fugas de memoria.",
+                "⚠️ No usar useEffect para actualizar el estado si puede hacerse directamente en eventos."
+            ],
+            en: [
+                "⚠️ Avoid unnecessary dependencies that cause infinite re-renders.",
+                "⚠️ Properly clean up effects to prevent memory leaks.",
+                "⚠️ Do not use useEffect to update state if it can be done directly in events."
+            ]
+        }
+    }
   ],
-  conclusion: [
-    "✅ `useEffect` permite manejar efectos secundarios en componentes funcionales.",
-    "✅ Se usa para llamadas a APIs, suscripciones y manipulación del DOM.",
-    "✅ Su cleanup evita fugas de memoria en eventos y suscripciones.",
-  ],
+  conclusion: {
+    es: [
+      "✅ useEffect permite manejar efectos secundarios en componentes funcionales.",
+      "✅ Se ejecuta según sus dependencias y puede limpiar efectos cuando sea necesario.",
+      "✅ Es útil para llamadas a API, eventos y gestión del estado."
+    ],
+    en: [
+      "✅ useEffect allows handling side effects in functional components.",
+      "✅ It runs based on its dependencies and can clean up effects when needed.",
+      "✅ It is useful for API calls, events, and state management."
+    ]
+  }
 };
 
 export default concept;
