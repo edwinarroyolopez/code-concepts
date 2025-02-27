@@ -54,19 +54,43 @@ const concept: Concept = {
       },
       rows: [
         {
-          es: ["Lógica de actualización", "Distribuida en varios estados", "Centralizada en un reducer"],
-          en: ["Update logic", "Spread across multiple useState calls", "Centralized in a reducer"]
+          es: [
+            "Lógica de actualización",
+            "❌ Distribuida en varios estados",
+            "✅ Centralizada en un reducer"
+          ],
+          en: [
+            "Update logic",
+            "❌ Spread across multiple useState calls",
+            "✅ Centralized in a reducer"
+          ]
         },
         {
-          es: ["Complejidad", "Adecuado para casos simples", "Ideal para casos complejos"],
-          en: ["Complexity", "Suitable for simple cases", "Ideal for complex cases"]
+          es: [
+            "Complejidad",
+            "✅ Adecuado para casos simples",
+            "✅ Ideal para casos complejos"
+          ],
+          en: [
+            "Complexity",
+            "✅ Suitable for simple cases",
+            "✅ Ideal for complex cases"
+          ]
         },
         {
-          es: ["Predecibilidad", "Menos predecible", "Más predecible con un reducer"],
-          en: ["Predictability", "Less predictable", "More predictable with a reducer"]
+          es: [
+            "Predecibilidad",
+            "❌ Menos predecible",
+            "✅ Más predecible con un reducer"
+          ],
+          en: [
+            "Predictability",
+            "❌ Less predictable",
+            "✅ More predictable with a reducer"
+          ]
         }
       ]
-    },
+    },    
     {
       type: "example",
       title: {
