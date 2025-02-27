@@ -34,7 +34,7 @@ const concept: Concept = {
     },
     {
       type: "example",
-      title: "🔹Ejemplo práctico de useState",
+      title: "1️⃣ Ejemplo práctico de useState",
       caseTitle: "Contador simple con useState",
       caseDescription:
         "Este ejemplo muestra cómo usar useState para manejar un contador.",
@@ -59,7 +59,7 @@ const concept: Concept = {
     },
     {
       type: "example",
-      title: "🔹Ejemplo práctico de useState",
+      title: "2️⃣ Ejemplo práctico de useState",
       caseTitle: "Formulario controlado con useState",
       caseDescription:
         "Manejar el estado de inputs de formularios con useState para actualización en tiempo real.",
@@ -89,7 +89,7 @@ const concept: Concept = {
     },
     {
       type: "example",
-      title: "🔹Ejemplo práctico de useState",
+      title: "3️⃣ Ejemplo práctico de useState",
       caseTitle: "Mostrar/Ocultar contenido con useState",
       caseDescription:
         "Usar useState para alternar la visibilidad de un componente o texto.",

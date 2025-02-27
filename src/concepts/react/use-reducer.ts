@@ -9,8 +9,9 @@ const concept: Concept = {
     {
       type: "text",
       title: "🔹¿Cómo funciona?",
+      code: `const [state, dispatch] = useReducer(reducer, initialState);`,
       content:
-        "useReducer toma un reducer (una función que determina cómo cambia el estado) y un estado inicial. Devuelve el estado actual y una función dispatch para actualizarlo.",
+        "useReducer toma una función reducer y un estado inicial. Devuelve el estado actual y una función dispatch para actualizarlo.",
     },
     {
       type: "list",
@@ -23,29 +24,60 @@ const concept: Concept = {
     },
     {
       type: "table",
-      title: "🔹Tabla comparativa entre useState y useReducer",
+      title: "🔹Comparación entre useState y useReducer",
       headers: ["Característica", "useState", "useReducer"],
       rows: [
         ["Simplicidad", "✅ Fácil de usar", "🚀 Mejor para lógica compleja"],
         ["Múltiples valores", "❌ Requiere varios estados", "✅ Manejo centralizado"],
-        ["Dependencia del estado previo", "⚠️ Potencialmente problemático", "✅ Reducer maneja cambios secuenciales"],
-      ],
-    },
-    {
-      type: "list",
-      title: "🔹Casos de uso de useReducer",
-      content: [
-        "Manejo de formularios complejos.",
-        "Contadores avanzados con múltiples acciones.",
-        "Gestión de carritos de compras en e-commerce.",
+        ["Dependencia del estado previo", "⚠️ Puede ser problemático", "✅ Reducer maneja cambios secuenciales"],
       ],
     },
     {
       type: "example",
-      title: "🔹Ejemplo práctico de useReducer",
+      title: "1️⃣ Ejemplo práctico de useReducer",
+      caseTitle: "Contador avanzado con useReducer",
+      caseDescription:
+        "Este ejemplo muestra cómo usar useReducer para manejar un contador con múltiples acciones.",
+      code: `
+        import { useReducer } from "react";
+
+        const counterReducer = (state, action) => {
+          switch (action.type) {
+            case "INCREMENT":
+              return { count: state.count + 1 };
+            case "DECREMENT":
+              return { count: state.count - 1 };
+            case "RESET":
+              return { count: 0 };
+            default:
+              return state;
+          }
+        };
+
+        const Counter = () => {
+          const [state, dispatch] = useReducer(counterReducer, { count: 0 });
+
+          return (
+            <div>
+              <p>Contador: {state.count}</p>
+              <button onClick={() => dispatch({ type: "INCREMENT" })}>➕</button>
+              <button onClick={() => dispatch({ type: "DECREMENT" })}>➖</button>
+              <button onClick={() => dispatch({ type: "RESET" })}>🔄 Reset</button>
+            </div>
+          );
+        };
+
+        export default Counter;
+      `,
+      conclusion:
+        "🔥 Beneficio: Con useReducer, la lógica de actualización del contador está centralizada y organizada.",
+    },
+    {
+      type: "example",
+      title: "2️⃣ Ejemplo práctico de useReducer",
       caseTitle: "Manejo de formulario con useReducer",
       caseDescription:
-        "Este ejemplo muestra cómo manejar el estado de un formulario usando useReducer, centralizando la lógica de actualización.",
+        "Este ejemplo muestra cómo manejar el estado de un formulario con useReducer, manteniendo toda la lógica centralizada.",
       code: `
         import { useReducer } from "react";
 
@@ -87,7 +119,55 @@ const concept: Concept = {
         export default FormExample;
       `,
       conclusion:
-        "Con useReducer, todas las actualizaciones están en una sola función (formReducer), en lugar de manejar múltiples useState.",
+        "🔥 Beneficio: Con useReducer, la actualización del formulario está centralizada en una sola función, evitando múltiples llamadas a useState.",
+    },
+    {
+      type: "example",
+      title: "3️⃣ Ejemplo práctico de useReducer",
+      caseTitle: "Gestión de carrito de compras con useReducer",
+      caseDescription:
+        "Un ejemplo de cómo manejar un carrito de compras con useReducer para agregar, eliminar y vaciar productos.",
+      code: `
+        import { useReducer } from "react";
+
+        const cartReducer = (state, action) => {
+          switch (action.type) {
+            case "ADD_ITEM":
+              return [...state, action.payload];
+            case "REMOVE_ITEM":
+              return state.filter((item) => item.id !== action.payload.id);
+            case "CLEAR_CART":
+              return [];
+            default:
+              return state;
+          }
+        };
+
+        const ShoppingCart = () => {
+          const [cart, dispatch] = useReducer(cartReducer, []);
+
+          return (
+            <div>
+              <button onClick={() => dispatch({ type: "ADD_ITEM", payload: { id: 1, name: "Producto 1" } })}>
+                🛒 Agregar Producto 1
+              </button>
+              <button onClick={() => dispatch({ type: "CLEAR_CART" })}>🗑 Vaciar Carrito</button>
+              <ul>
+                {cart.map((item) => (
+                  <li key={item.id}>
+                    {item.name}{" "}
+                    <button onClick={() => dispatch({ type: "REMOVE_ITEM", payload: item })}>❌</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        };
+
+        export default ShoppingCart;
+      `,
+      conclusion:
+        "🔥 Beneficio: useReducer facilita la gestión de estados complejos como un carrito de compras, agrupando toda la lógica en un solo reducer.",
     },
     {
       type: "list",
