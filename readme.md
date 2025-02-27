@@ -35,12 +35,6 @@ Este repositorio tiene como objetivo poner en práctica diversos conceptos avanz
 ✅ APIs del navegador: Fetch, Web Storage (LocalStorage y SessionStorage), WebSockets.  
 ✅ Técnicas de optimización: debounce, throttle, lazy loading.  
 
----
-
-## Negocio
-    - Login
-    - Theme
-    
     
 
 

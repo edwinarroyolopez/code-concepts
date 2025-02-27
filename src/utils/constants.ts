@@ -11,6 +11,8 @@ export const CONCEPTS = {
       { title: "useDeferredValue", slug: "use-deferred-value" },
       { title: "useRef", slug: "use-ref" },
       { title: "useContext", slug: "use-context" },
+      { title: "Zustand", slug: "zustand" },
+      { title: "Redux", slug: "redux" },
             
     ],
     javascript: [
