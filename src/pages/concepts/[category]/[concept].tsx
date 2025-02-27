@@ -1,11 +1,13 @@
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { loadConcept } from "@/utils/loadConcept";
 import { ConceptSection, Concept } from "@/types/concept";
 import Table from "@/components/ui/table";
+
+import { LanguageContext } from "@/context/LanguageContext";
 
 const Layout = dynamic(() => import("@/components/layouts/layout"), {
   ssr: false,
@@ -13,9 +15,10 @@ const Layout = dynamic(() => import("@/components/layouts/layout"), {
 
 const ConceptPage = () => {
   const router = useRouter();
-  const { category, concept, locale } = router.query;
+  const { category, concept } = router.query;
   const [conceptData, setConceptData] = useState<Concept | null>(null);
   const [copied, setCopied] = useState<number | null>(null);
+  const { lang } = useContext(LanguageContext);
 
   useEffect(() => {
     if (typeof category === "string" && typeof concept === "string") {
@@ -30,8 +33,6 @@ const ConceptPage = () => {
   };
 
   if (!conceptData) return <p className="text-center p-4">Cargando...</p>;
-
-  const lang: "es" | "en" = localStorage.getItem("lang") === "en" ? "en" : "es";
 
   return (
     <div className="p-4 sm:p-8 max-w-4xl mx-auto">
