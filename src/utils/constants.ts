@@ -13,7 +13,16 @@ export const CONCEPTS = {
       { title: "useContext", slug: "use-context" },
       { title: "Zustand", slug: "zustand" },
       { title: "Redux", slug: "redux" },
-            
+      { title: "React Query", slug: "react-query" },
+      { title: "Higher Order Components", slug: "higher-order-components" },
+      { title: "Render Props", slug: "render-props" },
+      { title: "Component Slot", slug: "component-slot" },
+      { title: "Observer Pattern", slug: "observer-pattern" },
+      { title: "Factory Pattern", slug: "factory-pattern" },
+      { title: "State Reducer Pattern", slug: "state-reducer-pattern" }
+
+      
+
     ],
     javascript: [
       { title: "Promises y Async/Await", slug: "promises-y-async-await"},
