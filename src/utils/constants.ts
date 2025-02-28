@@ -19,7 +19,11 @@ export const CONCEPTS = {
       { title: "Component Slot", slug: "component-slot" },
       { title: "Observer Pattern", slug: "observer-pattern" },
       { title: "Factory Pattern", slug: "factory-pattern" },
-      { title: "State Reducer Pattern", slug: "state-reducer-pattern" }
+      { title: "State Reducer Pattern", slug: "state-reducer-pattern" },
+      { title: "Singleton Pattern", slug: "singleton-pattern" },
+      { title: "Strategy Pattern", slug: "strategy-pattern" }
+
+      
 
       
 
