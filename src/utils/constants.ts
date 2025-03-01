@@ -26,6 +26,19 @@ export const CONCEPTS = {
       { title: "Tree Shaking", slug: "tree-shaking" },
       { title: "Bundle Analyzer", slug: "bundle-analyzer" },
       { title: "React Portals", slug: "react-portals" },
+      { title: "Jest", slug: "jest" },
+      { title: "Vitest", slug: "vitest" },
+      { title: "Storybook", slug: "storybook" },
+      { title: "CSS in JS", slug: "css-in-js" },
+      { title: "Sentry", slug: "sentry" },
+      { title: "LogRocket", slug: "logrocket" },
+      { title: "Microfrontends Nextjs", slug: "microfrontends-nextjs" },
+      { title: "Remix", slug: "remix" },
+      { title: "Astro", slug: "astro" },
+      { title: "Seo en React", slug: "seo-react" },
+      { title: "Seo en Nextjs", slug: "seo-nextjs" },
+      
+
       
     ],
     javascript: [
