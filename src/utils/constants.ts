@@ -22,12 +22,11 @@ export const CONCEPTS = {
       { title: "State Reducer Pattern", slug: "state-reducer-pattern" },
       { title: "Singleton Pattern", slug: "singleton-pattern" },
       { title: "Strategy Pattern", slug: "strategy-pattern" },
-      { title: "Optimization Techniquest", slug: "optimization-techniquest" } //improve
+      { title: "Optimization Techniquest", slug: "optimization-techniquest" },
+      { title: "Tree Shaking", slug: "tree-shaking" },
+      { title: "Bundle Analyzer", slug: "bundle-analyzer" },
+      { title: "React Portals", slug: "react-portals" },
       
-      
-
-      
-
     ],
     javascript: [
       { title: "Promises y Async/Await", slug: "promises-y-async-await"},

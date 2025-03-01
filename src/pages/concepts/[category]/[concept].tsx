@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { useEffect, useState, useContext } from "react";
@@ -36,6 +37,28 @@ const ConceptPage = () => {
 
   return (
     <div className="p-4 sm:p-8 max-w-4xl mx-auto">
+        <Head>
+        <title>{conceptData.title[lang]} - Conceptos de {category}</title>
+        <meta name="description" content={conceptData.description[lang]} />
+        <meta name="keywords" content={`conceptos, ${category}, ${conceptData.title[lang]}`} />
+
+        {/* Open Graph (para compartir en redes sociales) */}
+        <meta property="og:title" content={conceptData.title[lang]} />
+        <meta property="og:description" content={conceptData.description[lang]} />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://res.cloudinary.com/db3x4vzj0/image/upload/v1740839117/1692027941396_jz0rp3.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:url" content={`https://code-concepts-zeroed.netlify.app//${category}/${concept}`} />
+        <meta property="og:site_name" content="Zero Ed Code" />
+
+        {/* Twitter Card (para compartir en Twitter/X) */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={conceptData.title[lang]} />
+        <meta name="twitter:description" content={conceptData.description[lang]} />
+        <meta name="twitter:image" content="https://res.cloudinary.com/db3x4vzj0/image/upload/v1740839117/1692027941396_jz0rp3.jpg" />
+      </Head>
+
       <h1 className="text-2xl sm:text-3xl font-bold text-center">
         {conceptData.title[lang]}
       </h1>
