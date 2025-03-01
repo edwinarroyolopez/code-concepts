@@ -21,8 +21,9 @@ export const CONCEPTS = {
       { title: "Factory Pattern", slug: "factory-pattern" },
       { title: "State Reducer Pattern", slug: "state-reducer-pattern" },
       { title: "Singleton Pattern", slug: "singleton-pattern" },
-      { title: "Strategy Pattern", slug: "strategy-pattern" }
-
+      { title: "Strategy Pattern", slug: "strategy-pattern" },
+      { title: "Optimization Techniquest", slug: "optimization-techniquest" } //improve
+      
       
 
       
