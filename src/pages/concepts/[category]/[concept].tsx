@@ -49,7 +49,7 @@ const ConceptPage = () => {
         <meta property="og:image" content="https://res.cloudinary.com/db3x4vzj0/image/upload/v1740839117/1692027941396_jz0rp3.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:url" content={`https://code-concepts-zeroed.netlify.app//${category}/${concept}`} />
+        <meta property="og:url" content={`https://code-concepts-zeroed.netlify.app/${category}/${concept}`} />
         <meta property="og:site_name" content="Zero Ed Code" />
 
         {/* Twitter Card (para compartir en Twitter/X) */}
