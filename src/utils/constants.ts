@@ -36,13 +36,13 @@ export const CONCEPTS = {
       { title: "Remix", slug: "remix" },
       { title: "Astro", slug: "astro" },
       { title: "Seo en React", slug: "seo-react" },
-      { title: "Seo en Nextjs", slug: "seo-nextjs" },
-      
-
-      
+      { title: "Seo en Nextjs", slug: "seo-nextjs" }
     ],
     javascript: [
       { title: "Promises y Async/Await", slug: "promises-y-async-await"},
+      { title: "Closure", slug: "closure" },
+      { title: "Callbacks", slug: "callbacks" },
+      { title: "Higher Order Functions", slug: "higher-order-functions" },
     ],
   };
   
