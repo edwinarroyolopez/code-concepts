@@ -34,17 +34,27 @@ const ConceptPage = () => {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  if (!conceptData) return <p className="text-center p-4">Cargando...</p>;
-
+  if (!conceptData) {
+    return (
+      <>
+        <NextSeo title="Cargando..." noindex={true} />
+        <p className="text-center p-4">Cargando...</p>
+      </>
+    );
+  }
 
   const currentUrl = `https://code-concepts-zeroed.netlify.app${router.asPath}`;
-  const title = `${conceptData.title[lang] || "Zero Ed Code"} - Conceptos de ${category || "Programacion"}`;
+  const title = `${conceptData.title[lang] || "Zero Ed Code"} - Conceptos de ${
+    category || "Programacion"
+  }`;
 
   return (
     <>
       <NextSeo
         title={`${title}`}
-        description={conceptData.description?.[lang] || "Descripción no disponible"}
+        description={
+          conceptData.description?.[lang] || "Descripción no disponible"
+        }
         canonical={currentUrl}
         openGraph={{
           title: `${title}`,
@@ -55,7 +65,7 @@ const ConceptPage = () => {
           images: [
             {
               url: "https://res.cloudinary.com/db3x4vzj0/image/upload/v1740839117/1692027941396_jz0rp3.jpg",
-              alt: 'zeroedcode',
+              alt: "zeroedcode",
             },
           ],
         }}
