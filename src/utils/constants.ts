@@ -82,11 +82,14 @@ export const CONCEPTS = {
       { title: "Decoradores Avanzados y Reflect Metadata", slug: "advanced-decorators-reflect-metadata" },
       { title: "Compiler Transformers and API", slug: "compiler-transformers-api" },
       { title: "Analysis and Optimization Tools", slug: "analysis-optimization-tools" },
-      { title: "External Library Types", slug: "external-library-types" },
-
-      
-      
-      
+      { title: "External Library Types", slug: "external-library-types" }
+    ],
+    css: [
+      { title: "CSS Syntax: Selectors", slug: "css-syntax-selectors" },
+      { title: "Box model", slug: "css-box-model" },
+      { title: "Units & Values", slug: "css-units-values" },
+      { title: "Inheritance & Cascade", slug: "css-inheritance-cascade" },
+      { title: "Basic Properties", slug: "css-basic-properties" },
     ]
   };
   
