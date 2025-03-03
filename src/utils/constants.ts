@@ -59,5 +59,26 @@ export const CONCEPTS = {
       { title: "Websockets", slug: "websockets" },
       { title: "Debounce, Throttle, and Lazy Loading", slug: "debounce-throttle-lazy-loading" },
     ],
+    typescript: [
+      { title: "Primitive types", slug: "primitive-types" },
+      { title: "Type Inference & Type Annotation", slug: "type-inference-annotation" },
+      { title: "Basic Fucntions", slug: "basic-functions" },
+      { title: "Arrays & Objects", slug: "arrays-objects" },
+      { title: "Simple Interfaces", slug: "simple-interfaces" },
+      { title: "Classses & Inheritance", slug: "classses-inheritance" },
+      { title: "Modules & Namespaces", slug: "modules-namespaces" },
+      { title: "Advanced types", slug: "advanced-types" },
+      { title: "Generics", slug: "generics" },
+      { title: "Enums", slug: "enums" },
+      { title: "Decorators", slug: "decorators" },
+      { title: "Mapped types", slug: "mapped-types" },
+      { title: "Utility types", slug: "utility-types" },
+      { title: "Type Guards & Narrowing", slug: "type-guards-narrowing" },
+      { title: "Inference in Complex Types", slug: "inference-complex-types" },
+      { title: "Advanced compiler configuration", slug: "advanced-compiler-config" },
+      { title: "Metaprogramming", slug: "metaprogramming" },
+      { title: "Recursive types", slug: "recursive-types" },
+
+    ]
   };
   
