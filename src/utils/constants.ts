@@ -78,7 +78,15 @@ export const CONCEPTS = {
       { title: "Advanced compiler configuration", slug: "advanced-compiler-config" },
       { title: "Metaprogramming", slug: "metaprogramming" },
       { title: "Recursive types", slug: "recursive-types" },
+      { title: "Advanced generics", slug: "advanced-generics" },
+      { title: "Decoradores Avanzados y Reflect Metadata", slug: "advanced-decorators-reflect-metadata" },
+      { title: "Compiler Transformers and API", slug: "compiler-transformers-api" },
+      { title: "Analysis and Optimization Tools", slug: "analysis-optimization-tools" },
+      { title: "External Library Types", slug: "external-library-types" },
 
+      
+      
+      
     ]
   };
   
